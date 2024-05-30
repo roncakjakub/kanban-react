@@ -1,9 +1,11 @@
 import Sidebar from "./components/aside/Sidebar";
 
-export default function App() {
+const App = () => {
   return (
     <div className="flex">
       <Sidebar />
     </div>
   )
 }
+
+export default App;
