@@ -1,28 +1,34 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ThemeContextProvider } from "./context/ThemeContext";
-import { CSSTransition } from "react-transition-group";
+
 import Sidebar from "./components/aside/Sidebar";
+import ShowSidebarBtn from "./components/ShowSidebarBtn";
 
 const App = () => {
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(true);
-  const nodeRef = useRef(null);
+
+  const showSidebar = () => {
+    setIsVisibleSidebar(true);
+  };
+
+  const hideSidebar = () => {
+    setIsVisibleSidebar(false);
+  };
 
   return (
-    <ThemeContextProvider>
-      <div className="flex">
-        <CSSTransition
-          nodeRef={nodeRef}
-          in={isVisibleSidebar}
-          timeout={300}
-          classNames="sidebar"
-          unmountOnExit
-        >
-          <div ref={nodeRef}>
-            <Sidebar setIsVisibleSidebar={setIsVisibleSidebar} />
+    <>
+      <ThemeContextProvider>
+        <div className="flex">
+          <div>
+            <Sidebar
+              hideSidebar={hideSidebar}
+              isVisibleSidebar={isVisibleSidebar}
+            />
           </div>
-        </CSSTransition>
-      </div>
-    </ThemeContextProvider>
+        </div>
+      </ThemeContextProvider>
+      {!isVisibleSidebar && <ShowSidebarBtn showSidebar={showSidebar} />}
+    </>
   );
 };
 

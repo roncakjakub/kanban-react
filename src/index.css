@@ -30,5 +30,5 @@ body {
 .sidebar-exit-active {
   transform: translateX(-100%);
   opacity: 0;
-  transition: transform 300ms, opacity 300ms;
+  transition: transform 200ms, opacity 300ms;
 }
