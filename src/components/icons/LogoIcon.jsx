@@ -5,7 +5,7 @@ const LogoIcon = () => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className={`p-8 ${theme === "dark" ? "bg-darkGray" : "bg-white"}`}>
+    <div className={`p-8 width-250 border-r border-grayBlue`}>
       {theme === "dark" ? (
         <svg width="153" height="26" xmlns="http://www.w3.org/2000/svg">
           <g fill="none">

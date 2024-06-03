@@ -13,6 +13,10 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+.width-250 {
+  width: 250px;
+}
+
 // Sidebar animation
 .sidebar-enter {
   transform: translateX(-100%);
