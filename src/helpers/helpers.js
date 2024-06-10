@@ -1,19 +1,22 @@
 import DATA from "../data.json";
 
-export function extractColumns(boardName, columnsToExtract) {
-  const board = DATA.boards.find((board) => board.name === boardName);
-  if (!board) return null;
+export const extractColumns = (boardName) => {
+  const board = DATA.boards.find(board => board.name === boardName);
+  if (!board) return { name: boardName, columns: {} };
 
-  const columnsObject = columnsToExtract.reduce((columnsObject, columnName) => {
-    const column = board.columns.find((column) => column.name === columnName);
-    if (column) {
-      columnsObject[columnName.toLowerCase()] = column;
-    }
-    return columnsObject;
-  }, {});
-
+  const columns = board.columns;
   return {
-    name: board.name,
-    columns: columnsObject,
+    name: boardName,
+    columns: columns.reduce((columnObj, column) => {
+      columnObj[column.name.toLowerCase()] = column;
+      return columnObj;
+    }, {})
   };
-}
+};
+
+export function findColumnsByCategory(data, categoryName) {
+  const category = data.boards.find(board => board.name === categoryName);
+  if (!category) return [];
+
+  return category.columns;
+};

@@ -6,9 +6,13 @@ const CategoryBoard = ({ category }) => {
       <p className="text-grayBlue text-sm tracking-widest uppercase mb-2">
         {category.name}
       </p>
-      {category.tasks.map((task, index) => (
-        <Board key={index} task={task.title} subtasks={task.subtasks} />
-      ))}
+      {category.tasks && category.tasks.length > 0 ? (
+        category.tasks.map((task, index) => (
+          <Board key={index} task={task.title} subtasks={task.subtasks} />
+        ))
+      ) : (
+        <p className="text-grayBlue text-sm">No tasks available</p>
+      )}
     </div>
   );
 };

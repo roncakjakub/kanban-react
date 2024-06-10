@@ -1,4 +1,4 @@
-const Board = ({ task, subtasks }) => {
+const Board = ({ task = "", subtasks }) => {
   const completedSubtasksCount = subtasks.filter(
     (subtask) => subtask.isCompleted
   ).length;

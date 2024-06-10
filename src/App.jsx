@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ThemeContextProvider } from "./context/ThemeContext";
 
-import Sidebar from "./components/aside/Sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
 import ShowSidebarBtn from "./components/ShowSidebarBtn";
 import Header from "./components/Header";
 import Boards from "./components/boards/Boards";
