@@ -1,11 +1,15 @@
 import { useContext } from "react";
 import ThemeContext from "../../context/ThemeContext";
 
-const LogoIcon = () => {
+const LogoIcon = ({ isVisibleSidebar }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className={`p-8 width-250 border-r border-grayBlue`}>
+    <div
+      className={`${theme === "dark" ? "border-grayBlue" : ""} ${
+        !isVisibleSidebar && "border-grayBlue border-b"
+      } p-8 width-250 border-r`}
+    >
       {theme === "dark" ? (
         <svg width="153" height="26" xmlns="http://www.w3.org/2000/svg">
           <g fill="none">

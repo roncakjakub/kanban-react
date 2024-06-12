@@ -10,18 +10,24 @@ const Sidebar = ({ hideSidebar }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <aside className="flex flex-col h-screen border-r border-grayBlue width-250">
+    <aside
+      className={`${
+        theme === "dark" ? "border-grayBlue" : ""
+      } flex flex-col h-screen border-r width-250`}
+    >
       <div
         className={`flex flex-col justify-between h-full ${
           theme === "dark" ? "bg-mediumGray" : "bg-white"
         }`}
       >
         <div>
-          <div className="px-8 mt-2">
-            <p className="uppercase text-lightGrayText text-xs mb-6">
+          <div className="mt-2">
+            <p className="uppercase text-lightGrayText text-xs tracking-widest font-bold px-8 mb-8">
               All boards (3)
             </p>
-            <Navigation />
+            <div className="pr-8">
+              <Navigation />
+            </div>
           </div>
         </div>
         <div className="p-8">

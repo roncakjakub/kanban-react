@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux";
-import { setBoardName} from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { setBoardName } from "../../store";
 
 import BoardIcon from "../icons/BoardIcon";
 
@@ -7,6 +7,7 @@ const CATEGORY_NAMES = ["Platform Launch", "Marketing Plan", "Roadmap"];
 
 const Navigation = () => {
   const dispatch = useDispatch();
+  const currentBoardName = useSelector((state) => state.boardName);
 
   const setCurrentCategory = (name) => {
     dispatch(setBoardName(name));
@@ -18,11 +19,19 @@ const Navigation = () => {
         {CATEGORY_NAMES.map((boardName, index) => (
           <li
             onClick={() => setCurrentCategory(boardName)}
-            className="flex items-center gap-4 mb-6"
+            className={`${
+              boardName === currentBoardName && "bg-purple"
+            } flex items-center rounded-r-full hover:cursor-pointer px-8 py-3 gap-4 mb-1`}
             key={index}
           >
             <BoardIcon />
-            <a className="text-lightGrayText font-bold text-sm hover:text-white hover:cursor-pointer">
+            <a
+              className={`${
+                boardName === currentBoardName
+                  ? "text-white"
+                  : "text-lightGrayText"
+              } font-bold text-sm hover:text-white}`}
+            >
               {boardName}
             </a>
           </li>

@@ -4,14 +4,18 @@ import { useSelector } from "react-redux";
 import LogoIcon from "./icons/LogoIcon";
 import ThemeContext from "../context/ThemeContext";
 
-const Header = () => {
+const Header = ({ isVisibleSidebar }) => {
   const { theme } = useContext(ThemeContext);
   const currentBoardName = useSelector((state) => state.boardName);
 
   return (
     <div className={`${theme === "dark" ? "bg-mediumGray" : "bg-white"} flex`}>
-      <LogoIcon />
-      <div className="flex justify-between items-center grow px-4 border-b border-grayBlue">
+      <LogoIcon isVisibleSidebar={isVisibleSidebar} />
+      <div
+        className={`${
+          theme === "dark" ? "border-grayBlue" : ""
+        } flex justify-between items-center grow px-4 border-b`}
+      >
         <h2
           className={`${
             theme === "dark" ? "text-white" : "text-gray"

@@ -20,7 +20,7 @@ const App = () => {
   return (
     <>
       <ThemeContextProvider>
-        <Header />
+        <Header isVisibleSidebar={isVisibleSidebar} />
         <div className="flex">
           <div>
             {isVisibleSidebar && (
