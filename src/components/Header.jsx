@@ -6,7 +6,7 @@ import ThemeContext from "../context/ThemeContext";
 
 const Header = ({ isVisibleSidebar }) => {
   const { theme } = useContext(ThemeContext);
-  const currentBoardName = useSelector((state) => state.boardName);
+  const currentBoardName = useSelector((state) => state.boardsState.boardName);
 
   return (
     <div className={`${theme === "dark" ? "bg-mediumGray" : "bg-white"} flex`}>

@@ -1,20 +1,20 @@
-import { useSelector } from "react-redux";
-import { selectColumnDataByType } from "../../store";
-import { findColumnsByCategory } from "../../helpers/helpers";
 import { useContext } from "react";
+import { useSelector } from "react-redux";
+import { selectColumnDataByType } from "../../store/boards-slice";
+import { findColumnsByCategory } from "../../helpers/helpers";
 
 import DATA from "../../data.json";
-import CategoryBoard from "./CategoryBoard";
+import Column from "./Column";
 import ThemeContext from "../../context/ThemeContext";
 
 const Boards = () => {
   const { theme } = useContext(ThemeContext);
-  const boardName = useSelector((state) => state.boardName);
+  const boardName = useSelector((state) => state.boardsState.boardName);
 
   const columns = findColumnsByCategory(DATA, boardName);
   const columnTypes = columns.map((column) => column.name.toLowerCase());
   const columnData = columnTypes.map((type) =>
-    useSelector((state) => selectColumnDataByType(state, type))
+    useSelector((state) => selectColumnDataByType(state.boardsState, type))
   );
 
   return (
@@ -25,7 +25,7 @@ const Boards = () => {
     >
       <div className="flex">
         {columnData.map((data, index) => (
-          <CategoryBoard key={index} category={data} />
+          <Column key={index} category={data} />
         ))}
       </div>
     </div>

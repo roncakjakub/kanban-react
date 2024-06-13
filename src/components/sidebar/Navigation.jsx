@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setBoardName } from "../../store";
+import { setBoardName } from "../../store/boards-slice";
 
 import BoardIcon from "../icons/BoardIcon";
 
@@ -7,7 +7,7 @@ const CATEGORY_NAMES = ["Platform Launch", "Marketing Plan", "Roadmap"];
 
 const Navigation = () => {
   const dispatch = useDispatch();
-  const currentBoardName = useSelector((state) => state.boardName);
+  const currentBoardName = useSelector((state) => state.boardsState.boardName);
 
   const setCurrentCategory = (name) => {
     dispatch(setBoardName(name));

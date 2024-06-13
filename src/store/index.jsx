@@ -1,45 +1,10 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
-import { extractColumns } from "../helpers/helpers";
+import { configureStore } from "@reduxjs/toolkit";
 
-const platformLaunchData = extractColumns("Platform Launch");
-const marketingPlanData = extractColumns("Marketing Plan");
-const roadmapData = extractColumns("Roadmap");
-
-const initialState = {
-  platformLaunchData,
-  marketingPlanData,
-  roadmapData,
-  boardName: "Platform Launch",
-};
-
-const boardsSlice = createSlice({
-  name: "boards",
-  initialState,
-  reducers: {
-    setBoardName: (state, action) => {
-      state.boardName = action.payload;
-    },
-  },
-});
-
-const selectColumnDataByType = (state, type) => {
-  switch (state.boardName) {
-    case "Platform Launch":
-      return state.platformLaunchData.columns[type];
-    case "Marketing Plan":
-      return state.marketingPlanData.columns[type];
-    case "Roadmap":
-      return state.roadmapData.columns[type];
-    default:
-      return {};
-  }
-};
+import boardsSlice from "./boards-slice";
+import modalSlice from "./modal-slice";
 
 const store = configureStore({
-  reducer: boardsSlice.reducer,
+  reducer: { boardsState: boardsSlice.reducer, modalState: modalSlice },
 });
-
-export const { setBoardName } = boardsSlice.actions;
-export { selectColumnDataByType };
 
 export default store;
