@@ -1,7 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap");
 
 * {
   margin: 0;
@@ -10,7 +10,7 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .width-250 {
@@ -35,4 +35,43 @@ body {
   transform: translateX(-100%);
   opacity: 0;
   transition: transform 200ms, opacity 300ms;
+}
+
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.custom-select select {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 40px 10px 12px;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #ffffff;
+  background-color: #3E3F4E; /* mediumGray */
+  border: 1px solid #828FA3; /* grayBlue */
+  border-radius: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.custom-select select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 95, 199, 0.5); /* ring-purple-500 */
+}
+
+.custom-select::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 7px;
+  background: url('data:image/svg+xml,%3Csvg width="10" height="7" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="%23635FC7" stroke-width="2" fill="none" d="m1 1 4 4 4-4"/%3E%3C/svg%3E') no-repeat center center;
 }

@@ -1,4 +1,6 @@
 import { createPortal } from "react-dom";
+import { useSelector } from "react-redux";
+import TaskDetail from "./modal-content/TaskDetail";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -6,7 +8,7 @@ const modalOverlayStyle = {
   left: 0,
   right: 0,
   bottom: 0,
-  background: "rgba(0, 0, 0, 0.2)",
+  background: "rgba(0, 0, 0, 0.4)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -14,7 +16,6 @@ const modalOverlayStyle = {
 };
 
 const modalContentStyle = {
-  background: "#1E1E1E",
   padding: "20px",
   borderRadius: "8px",
   maxWidth: "600px",
@@ -23,12 +24,24 @@ const modalContentStyle = {
   color: "white",
 };
 
-const Modal = ({ data }) => {
-  console.log(data);
-  // TODO
+const Modal = ({ modalType = "" }) => {
+  const modalData = useSelector((state) => state.modalState.modalData);
+  console.log(modalData);
+
+  let modalContent;
+  switch (modalType) {
+    case "taskDetail":
+      modalContent = <TaskDetail />;
+      break;
+    default:
+      modalContent = null;
+  }
+
   return createPortal(
     <div style={modalOverlayStyle}>
-      <div style={modalContentStyle}>Modal</div>
+      <div className="bg-mediumGray" style={modalContentStyle}>
+        {modalContent}
+      </div>
     </div>,
     document.getElementById("portal")
   );

@@ -1,22 +1,18 @@
-import React from "react";
 import { useContext } from "react";
+import { calculateCompletedSubtasks } from "../../helpers/helpers";
 
 import ThemeContext from "../../context/ThemeContext";
 
-const Task = React.memo(({ onClick, task }) => {
+const Task = ({ onClick, task }) => {
   const { theme } = useContext(ThemeContext);
-
-  const completedSubtasksCount = task.subtasks.filter(
-    (subtask) => subtask.isCompleted
-  ).length;
-  const allSubtasksCount = task.subtasks.length;
+  const { completedSubtasksCount, allSubtasksCount } = calculateCompletedSubtasks(task);
 
   return (
     <div
       onClick={onClick}
       className={`${
         theme === "dark" ? "bg-mediumGray" : "bg-white"
-      } my-3 py-5 px-4 rounded-md w-11/12`}
+      } my-3 py-5 px-4 rounded-md w-11/12 cursor-pointer`}
     >
       <p
         className={`${
@@ -30,6 +26,6 @@ const Task = React.memo(({ onClick, task }) => {
       </p>
     </div>
   );
-});
+};
 
 export default Task;

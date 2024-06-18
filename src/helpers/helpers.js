@@ -1,6 +1,6 @@
 import DATA from "../data.json";
 
-export const extractColumns = (boardName) => {
+export function extractColumns(boardName) {
   const board = DATA.boards.find(board => board.name === boardName);
   if (!board) return { name: boardName, columns: {} };
 
@@ -20,3 +20,15 @@ export function findColumnsByCategory(data, categoryName) {
 
   return category.columns;
 };
+
+export function calculateCompletedSubtasks(task) {
+  const completedSubtasksCount = task.subtasks.filter(
+    (subtask) => subtask.isCompleted
+  ).length;
+  const allSubtasksCount = task.subtasks.length;
+
+  return {
+    completedSubtasksCount,
+    allSubtasksCount,
+  };
+}
