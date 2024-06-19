@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { selectColumnDataByType } from "../../store/boards-slice";
 import { findColumnsByCategory } from "../../helpers/helpers";
@@ -13,6 +13,7 @@ const Boards = () => {
 
   const columns = findColumnsByCategory(DATA, boardName);
   const columnTypes = columns.map((column) => column.name.toLowerCase());
+
   const columnData = columnTypes.map((type) =>
     useSelector((state) => selectColumnDataByType(state.boardsState, type))
   );
@@ -24,8 +25,8 @@ const Boards = () => {
       } w-screen h-screen p-6`}
     >
       <div className="flex">
-        {columnData.map((data, index) => (
-          <Column key={index} category={data} />
+        {columnData.map((column, index) => (
+          <Column key={index} tasks={column.tasks} columnName={column.name} />
         ))}
       </div>
     </div>
