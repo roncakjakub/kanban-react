@@ -1,10 +1,11 @@
-const SubtaskItem = ({ subtask }) => {
+const SubtaskItem = ({ subtask, onToggle }) => {
   return (
     <div className="flex items-center p-3 bg-darkGray space-x-2">
       <label className="flex items-center space-x-4 cursor-pointer">
         <input
           type="checkbox"
           checked={subtask.isCompleted}
+          onChange={onToggle}
           readOnly
           className="custom-checkbox h-5 w-5"
         />

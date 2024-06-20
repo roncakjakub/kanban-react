@@ -33,19 +33,27 @@ const boardsSlice = createSlice({
     addTask: (state, action) => {
       const { boardName, columnName, task } = action.payload;
       const board = state.boards.find((board) => board.name === boardName);
-      const column = board.columns[columnName.toLowerCase()];
 
-      column.tasks.push(task);
+      if (board) {
+        const column = board.columns[columnName.toLowerCase()];
+
+        column.tasks.push(task);
+      }
     },
     updateTask: (state, action) => {
-      const { boardName, columnName, task } = action.payload;
+      const { boardName, task } = action.payload;
       const board = state.boards.find((board) => board.name === boardName);
 
-      const oldColumn = board.columns[columnName.toLowerCase()];
-      const newColumn = board.columns[task.newStatus.toLowerCase()];
+      if (board) {
+        Object.keys(board.columns).forEach((columnKey) => {
+          board.columns[columnKey].tasks = board.columns[
+            columnKey
+          ].tasks.filter((t) => t.title !== task.title);
+        });
 
-      oldColumn.tasks = oldColumn.tasks.filter((t) => t.title !== task.title);
-      newColumn.tasks.push({ ...task, status: task.newStatus });
+        const newColumn = board.columns[task.newStatus.toLowerCase()];
+        newColumn.tasks.push({ ...task, status: task.newStatus });
+      }
     },
     removeTask: (state, action) => {
       const { boardName, taskTitle } = action.payload;
@@ -56,11 +64,25 @@ const boardsSlice = createSlice({
         column.tasks = column.tasks.filter((task) => task.title !== taskTitle);
       });
     },
+    updateSubtaskStatus: (state, action) => {
+      const { boardName, columnName, taskTitle, subtaskIndex } = action.payload;
+      const board = state.boards.find((board) => board.name === boardName);
+      if (!board) return;
+
+      let column = board.columns[columnName.toLowerCase()];
+      let task = column.tasks.find((task) => task.title === taskTitle);
+
+      if (task) {
+        task.subtasks[subtaskIndex].isCompleted =
+          !task.subtasks[subtaskIndex].isCompleted;
+      }
+    },
   },
 });
 
 const selectBoard = (state) =>
   state.boards.find((board) => board.name === state.boardName);
+
 const selectColumnDataByType = createSelector(
   [selectBoard, (_, type) => type],
   (board, type) => {
@@ -74,7 +96,14 @@ const selectColumnDataByType = createSelector(
   }
 );
 
-export const { setBoardName, addTask, updateTask, removeTask } = boardsSlice.actions;
+export const {
+  setBoardName,
+  addTask,
+  updateTask,
+  updateSubtaskStatus,
+  removeTask,
+} = boardsSlice.actions;
+
 export { selectColumnDataByType };
 
 export default boardsSlice;

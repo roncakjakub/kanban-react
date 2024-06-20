@@ -60,7 +60,7 @@ const TaskModal = ({ modalData, mode }) => {
       title: fd.get("title"),
       description: fd.get("description"),
       subtasks: newSubtasks,
-      status: fd.get("status"),
+      newStatus: fd.get("status"),
     };
 
     if (mode === "edit") {
@@ -92,7 +92,7 @@ const TaskModal = ({ modalData, mode }) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
-              className="w-full p-2 rounded-md bg-mediumGray border border-grayBlue text-white"
+              className="w-full py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-white"
             />
           </div>
           <div>
@@ -108,10 +108,10 @@ const TaskModal = ({ modalData, mode }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
-              className="w-full p-2 rounded-md bg-mediumGray border border-grayBlue text-white"
+              className="w-full py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-white"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-3">
             <label className="block text-sm text-white font-bold mb-2">
               Subtasks
             </label>
@@ -123,7 +123,7 @@ const TaskModal = ({ modalData, mode }) => {
                   value={subtask.title}
                   onChange={(e) => handleSubtaskChange(index, e.target.value)}
                   placeholder="Subtask"
-                  className="flex-grow p-2 rounded-md bg-mediumGray border border-grayBlue text-white"
+                  className="flex-grow py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-sm text-white"
                 />
                 <button
                   type="button"
@@ -137,7 +137,7 @@ const TaskModal = ({ modalData, mode }) => {
             <button
               type="button"
               onClick={handleAddSubtask}
-              className="text-white bg-purple-500 rounded-md p-2"
+              className="hover:opacity-70 text-purple text-sm font-bold bg-white w-full bg-purple-500 rounded-full p-3"
             >
               + Add New Subtask
             </button>
@@ -156,7 +156,7 @@ const TaskModal = ({ modalData, mode }) => {
           </div>
           <button
             type="submit"
-            className="w-full p-2 bg-purple-500 text-white rounded-md"
+            className="hover:opacity-70 w-full p-2 bg-purple text-white rounded-full"
           >
             {mode === "edit" ? "Save Changes" : "Create Task"}
           </button>
