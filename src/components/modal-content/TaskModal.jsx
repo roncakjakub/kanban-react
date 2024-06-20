@@ -8,16 +8,17 @@ import { closeModal } from "../../store/modal-slice";
 import CrossIcon from "../icons/CrossIcon";
 import StatusSelect from "./StatusSelect";
 
-// REFACTOR
+// rename to action modal
+// refactor, current task, subtask to hook,....
 
 const TaskModal = ({ modalData, mode }) => {
   const dispatch = useDispatch();
   const { task, boardName, columnName } = modalData;
 
-  const [title, setTitle] = useState(task?.title);
-  const [description, setDescription] = useState(task.description);
-  const [subtasks, setSubtasks] = useState(task.subtasks);
-  const [currentStatus, setCurrentStatus] = useState(task.status);
+  const [title, setTitle] = useState(task?.title || "");
+  const [description, setDescription] = useState(task?.description || "");
+  const [subtasks, setSubtasks] = useState(task?.subtasks || []);
+  const [currentStatus, setCurrentStatus] = useState(task?.status || "Todo");
 
   useEffect(() => {
     if (mode === "edit" && task) {
@@ -60,7 +61,7 @@ const TaskModal = ({ modalData, mode }) => {
       title: fd.get("title"),
       description: fd.get("description"),
       subtasks: newSubtasks,
-      newStatus: fd.get("status"),
+      status: fd.get("status"),
     };
 
     if (mode === "edit") {

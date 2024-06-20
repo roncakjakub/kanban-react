@@ -4,6 +4,7 @@ const initialState = {
   isActiveModal: false,
   modalData: [],
   modalType: "",
+  mode: "",
 };
 
 const modalSlice = createSlice({
@@ -14,16 +15,16 @@ const modalSlice = createSlice({
       state.modalData = action.payload;
     },
     openModal: (state, action) => {
+      const [type, mode] = action.payload;
       state.isActiveModal = true;
-      state.modalType = action.payload;
+      state.modalType = type;
+      state.mode = mode;
     },
     closeModal: (state) => {
       state.isActiveModal = false;
       state.modalType = "";
       state.modalData = {};
     },
-    //showModal: (state, action),
-    //setModalState: (state, action),
   },
 });
 

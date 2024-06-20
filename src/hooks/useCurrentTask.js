@@ -9,7 +9,7 @@ const useCurrentTask = (boardName, task, currentStatus) => {
       (board) => board.name === boardName
     );
     if (!board) return null;
-
+ 
     const column = board.columns[currentStatus.toLowerCase()];
     if (!column) return null;
 

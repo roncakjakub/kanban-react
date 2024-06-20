@@ -23,6 +23,7 @@ const initialState = {
   boardName: "Platform Launch",
 };
 
+// refactor
 const boardsSlice = createSlice({
   name: "boards",
   initialState,
@@ -38,6 +39,7 @@ const boardsSlice = createSlice({
         const column = board.columns[columnName.toLowerCase()];
 
         column.tasks.push(task);
+        console.log(task);
       }
     },
     updateTask: (state, action) => {
@@ -51,8 +53,8 @@ const boardsSlice = createSlice({
           ].tasks.filter((t) => t.title !== task.title);
         });
 
-        const newColumn = board.columns[task.newStatus.toLowerCase()];
-        newColumn.tasks.push({ ...task, status: task.newStatus });
+        const newColumn = board.columns[task.status.toLowerCase()];
+        newColumn.tasks.push({ ...task, status: task.status });
       }
     },
     removeTask: (state, action) => {

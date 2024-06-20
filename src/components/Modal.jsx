@@ -29,6 +29,7 @@ const modalContentStyle = {
 const Modal = () => {
   const modalData = useSelector((state) => state.modalState.modalData);
   const modalType = useSelector((state) => state.modalState.modalType);
+  const mode = useSelector((state) => state.modalState.mode);
 
   let modalContent;
   switch (modalType) {
@@ -36,7 +37,7 @@ const Modal = () => {
       modalContent = <TaskDetail modalData={modalData} />;
       break;
     case "taskModal":
-      modalContent = <TaskModal modalData={modalData} mode="edit" />;
+      modalContent = <TaskModal modalData={modalData} mode={mode} />;
       break;
     default:
       modalContent = null;

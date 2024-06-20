@@ -7,27 +7,35 @@ const Column = ({ tasks, columnName }) => {
   const dispatch = useDispatch();
   const currentBoardName = useSelector((store) => store.boardsState.boardName);
 
-  const handleOpenModal = (taskData) => {
+  const handleOpenModal = (taskData, mode) => {
     const modalData = {
       task: taskData,
       boardName: currentBoardName,
       columnName,
     };
 
-    dispatch(openModal("taskDetail"));
+    if (mode === "edit") {
+      dispatch(openModal(["taskDetail", ""]));
+    } else {
+      dispatch(openModal(["taskModal", "add"]));
+    }
+
     dispatch(setModalData(modalData));
   };
 
   return (
     <>
       <div className="flex flex-col flex-1">
-        <p className="text-grayBlue text-sm tracking-widest uppercase mb-2">
+        <p
+          onClick={() => handleOpenModal([], "add")}
+          className="text-grayBlue text-sm tracking-widest uppercase mb-2 cursor-pointer"
+        >
           {columnName}
         </p>
         {tasks && tasks.length > 0 ? (
           tasks.map((task, index) => (
             <Task
-              onClick={() => handleOpenModal(task)}
+              onClick={() => handleOpenModal(task, "edit")}
               key={index}
               task={task}
             />

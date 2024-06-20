@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
 import { updateTask, removeTask } from "../store/boards-slice";
-import { closeModal, openModal } from "../store/modal-slice";
+import { closeModal, openModal, setModalData } from "../store/modal-slice";
 import { useState, useEffect } from "react";
 
 const useTaskActions = (modalData) => {
   const dispatch = useDispatch();
-  const { task, boardName, columnName } = modalData;
+  const { task, boardName, columName } = modalData;
 
   const [currentStatus, setCurrentStatus] = useState(task.status);
 
@@ -17,9 +17,10 @@ const useTaskActions = (modalData) => {
 
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
-    const updatedTask = { ...task, newStatus };
+    const updatedTask = { ...task, status: newStatus };
     setCurrentStatus(newStatus);
     dispatch(updateTask({ boardName, task: updatedTask }));
+    dispatch(setModalData({ boardName, columName, task: updatedTask}));
   };
 
   const handleDeleteTask = () => {
@@ -28,7 +29,7 @@ const useTaskActions = (modalData) => {
   };
 
   const openTaskModal = () => {
-    dispatch(openModal("taskModal"));
+    dispatch(openModal(["taskModal", "edit"]));
   };
 
   const actionMenuOptions = [
