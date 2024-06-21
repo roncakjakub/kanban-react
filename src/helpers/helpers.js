@@ -12,14 +12,14 @@ export function extractColumns(boardName) {
       return columnObj;
     }, {})
   };
-};
+}
 
 export function findColumnsByCategory(data, categoryName) {
   const category = data.boards.find(board => board.name === categoryName);
   if (!category) return [];
 
   return category.columns;
-};
+}
 
 export function calculateCompletedSubtasks(task) {
   const completedSubtasksCount = task.subtasks.filter(

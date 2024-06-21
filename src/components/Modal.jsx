@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 
 import TaskDetail from "./modal-content/TaskDetail";
-import TaskModal from "./modal-content/TaskModal";
+import ActionModal from "./modal-content/ActionModal";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -37,9 +37,9 @@ const Modal = () => {
     case "taskDetail":
       modalContent = <TaskDetail modalData={modalData} />;
       break;
-    case "taskModal":
+    case "actionModal":
       modalContent = (
-        <TaskModal modalData={modalData} mode={mode} type={type} />
+        <ActionModal modalData={modalData} mode={mode} type={type} />
       );
       break;
     default:

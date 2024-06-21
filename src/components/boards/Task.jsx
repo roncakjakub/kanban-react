@@ -5,7 +5,8 @@ import ThemeContext from "../../context/ThemeContext";
 
 const Task = ({ onClick, task }) => {
   const { theme } = useContext(ThemeContext);
-  const { completedSubtasksCount, allSubtasksCount } = calculateCompletedSubtasks(task);
+  const { completedSubtasksCount, allSubtasksCount } =
+    calculateCompletedSubtasks(task);
 
   return (
     <div

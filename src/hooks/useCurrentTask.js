@@ -15,6 +15,7 @@ const useCurrentTask = (boardName, task, currentStatus) => {
 
     return column.tasks.find((t) => t.title === task.title);
   });
+  console.log(task);
 
   useEffect(() => {
     if (selectedTask) {

@@ -28,14 +28,14 @@ const useTaskActions = (modalData) => {
     dispatch(closeModal());
   };
 
-  const openTaskModal = () => {
-    dispatch(openModal(["taskModal", "edit", "task"]));
+  const openActionModal = () => {
+    dispatch(openModal(["actionModal", "edit", "task"]));
   };
 
   const actionMenuOptions = [
     {
       label: "Edit",
-      action: openTaskModal,
+      action: openActionModal,
     },
     {
       label: "Delete",

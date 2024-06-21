@@ -12,7 +12,7 @@ const Header = ({ isVisibleSidebar }) => {
   const { handleOpenModal } = useModalHandler();
 
   const modalSettings = {
-    name: "taskModal",
+    name: "actionModal",
     mode: "add",
     type: "task",
   };

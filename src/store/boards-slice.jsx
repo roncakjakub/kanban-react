@@ -1,5 +1,11 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { extractColumns } from "../helpers/helpers";
+import {
+  addTaskReducer,
+  updateTaskReducer,
+  removeTaskReducer,
+  updateSubtaskStatusReducer,
+} from "../reducers/taskReducers";
 
 const platformLaunchData = extractColumns("Platform Launch");
 const marketingPlanData = extractColumns("Marketing Plan");
@@ -31,87 +37,33 @@ const boardsSlice = createSlice({
     setBoardName: (state, action) => {
       state.boardName = action.payload;
     },
-    addTask: (state, action) => {
-      const { boardName, columnName, task } = action.payload;
-      const board = state.boards.find((board) => board.name === boardName);
-
-      if (board) {
-        const column = board.columns[columnName.toLowerCase()];
-
-        column.tasks.push(task);
-      }
+    addBoard: (state, action) => {
+      const { board } = action.payload;
+      const columnsObject = board.columns.reduce((acc, column) => {
+        acc[column.name.toLowerCase()] = column;
+        return acc;
+      }, {});
+      state.boards.push({ ...board, columns: columnsObject });
     },
-    updateTask: (state, action) => {
-      const { boardName, task } = action.payload;
-      const board = state.boards.find((board) => board.name === boardName);
-
-      if (board) {
-        Object.keys(board.columns).forEach((columnKey) => {
-          board.columns[columnKey].tasks = board.columns[
-            columnKey
-          ].tasks.filter((t) => t.title !== task.title);
-        });
-
-        const oldColumn = board.columns[task.oldTask.status.toLowerCase()];
-        if (oldColumn) {
-          oldColumn.tasks = oldColumn.tasks.filter(
-            (t) => t.title !== task.oldTask.title
-          );
-
-          const newColumn = board.columns[task.status.toLowerCase()];
-          newColumn.tasks.push({ ...task, status: task.status });
-        }
-      }
-    },
-    removeTask: (state, action) => {
-      const { boardName, taskTitle } = action.payload;
-      const board = state.boards.find((board) => board.name === boardName);
-
-      Object.keys(board.columns).forEach((columnKey) => {
-        const column = board.columns[columnKey];
-        column.tasks = column.tasks.filter((task) => task.title !== taskTitle);
-      });
-    },
-    updateSubtaskStatus: (state, action) => {
-      const { boardName, columnName, taskTitle, subtaskIndex } = action.payload;
-      const board = state.boards.find((board) => board.name === boardName);
-      if (!board) return;
-
-      let column = board.columns[columnName.toLowerCase()];
-      let task = column.tasks.find((task) => task.title === taskTitle);
-
-      if (task) {
-        task.subtasks[subtaskIndex].isCompleted =
-          !task.subtasks[subtaskIndex].isCompleted;
-      }
-    },
+    addTask: addTaskReducer,
+    updateTask: updateTaskReducer,
+    removeTask: removeTaskReducer,
+    updateSubtaskStatus: updateSubtaskStatusReducer,
   },
 });
 
 const selectBoard = (state) =>
   state.boards.find((board) => board.name === state.boardName);
 
-const selectColumnDataByType = createSelector(
-  [selectBoard, (_, type) => type],
-  (board, type) => {
-    if (board) {
-      const column = board.columns[type.toLowerCase()];
-      return column
-        ? { name: type, tasks: column.tasks }
-        : { name: type, tasks: [] };
-    }
-    return { name: type, tasks: [] };
-  }
-);
-
 export const {
   setBoardName,
+  addBoard,
   addTask,
   updateTask,
-  updateSubtaskStatus,
   removeTask,
+  updateSubtaskStatus,
 } = boardsSlice.actions;
 
-export { selectColumnDataByType };
+export { selectBoard };
 
 export default boardsSlice;
