@@ -17,9 +17,9 @@ const useTaskActions = (modalData) => {
 
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
-    const updatedTask = { ...task, status: newStatus };
+    const updatedTask = { ...task, status: newStatus, oldTask: task };
     setCurrentStatus(newStatus);
-    dispatch(updateTask({ boardName, task: updatedTask }));
+    dispatch(updateTask({ boardName, task: updatedTask, }));
     dispatch(setModalData({ boardName, columName, task: updatedTask}));
   };
 
@@ -29,7 +29,7 @@ const useTaskActions = (modalData) => {
   };
 
   const openTaskModal = () => {
-    dispatch(openModal(["taskModal", "edit"]));
+    dispatch(openModal(["taskModal", "edit", "task"]));
   };
 
   const actionMenuOptions = [

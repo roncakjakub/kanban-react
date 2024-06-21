@@ -7,17 +7,14 @@ import { closeModal } from "../../store/modal-slice";
 
 import CrossIcon from "../icons/CrossIcon";
 import StatusSelect from "./StatusSelect";
+import useSubtaskHandler from "../../hooks/useSubtaskHandler";
 
-// rename to action modal
-// refactor, current task, subtask to hook,....
-
-const TaskModal = ({ modalData, mode }) => {
+const TaskModal = ({ modalData, mode, type }) => {
   const dispatch = useDispatch();
   const { task, boardName, columnName } = modalData;
 
   const [title, setTitle] = useState(task?.title || "");
   const [description, setDescription] = useState(task?.description || "");
-  const [subtasks, setSubtasks] = useState(task?.subtasks || []);
   const [currentStatus, setCurrentStatus] = useState(task?.status || "Todo");
 
   useEffect(() => {
@@ -29,21 +26,15 @@ const TaskModal = ({ modalData, mode }) => {
     }
   }, [mode, task]);
 
-  const handleAddSubtask = () => {
-    setSubtasks([...subtasks, { title: "", isCompleted: false }]);
-  };
+  console.log(type);
 
-  const handleSubtaskChange = (index, value) => {
-    const newSubtasks = subtasks.slice();
-    newSubtasks[index].title = value;
-    setSubtasks(newSubtasks);
-  };
-
-  const handleSubtaskRemove = (index) => {
-    const newSubtasks = subtasks.slice();
-    newSubtasks.splice(index, 1);
-    setSubtasks(newSubtasks);
-  };
+  const {
+    subtasks,
+    setSubtasks,
+    handleAddSubtask,
+    handleSubtaskChange,
+    handleSubtaskRemove,
+  } = useSubtaskHandler(boardName, currentStatus, task);
 
   const handleStatusChange = (event) => {
     setCurrentStatus(event.target.value);
@@ -62,6 +53,7 @@ const TaskModal = ({ modalData, mode }) => {
       description: fd.get("description"),
       subtasks: newSubtasks,
       status: fd.get("status"),
+      oldTask: task,
     };
 
     if (mode === "edit") {

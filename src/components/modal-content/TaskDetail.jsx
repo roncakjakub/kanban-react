@@ -13,7 +13,9 @@ const TaskDetail = ({ modalData }) => {
 
   const { currentStatus, handleStatusChange, actionMenuOptions } =
     useTaskActions(modalData);
+
   const currentTask = useCurrentTask(boardName, task, currentStatus);
+
   const { handleSubtaskToggle } = useSubtaskHandler(
     boardName,
     currentStatus,

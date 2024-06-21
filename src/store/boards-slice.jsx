@@ -1,4 +1,4 @@
-import { createSelector, createSlice, current } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { extractColumns } from "../helpers/helpers";
 
 const platformLaunchData = extractColumns("Platform Launch");
@@ -39,7 +39,6 @@ const boardsSlice = createSlice({
         const column = board.columns[columnName.toLowerCase()];
 
         column.tasks.push(task);
-        console.log(task);
       }
     },
     updateTask: (state, action) => {
@@ -53,8 +52,15 @@ const boardsSlice = createSlice({
           ].tasks.filter((t) => t.title !== task.title);
         });
 
-        const newColumn = board.columns[task.status.toLowerCase()];
-        newColumn.tasks.push({ ...task, status: task.status });
+        const oldColumn = board.columns[task.oldTask.status.toLowerCase()];
+        if (oldColumn) {
+          oldColumn.tasks = oldColumn.tasks.filter(
+            (t) => t.title !== task.oldTask.title
+          );
+
+          const newColumn = board.columns[task.status.toLowerCase()];
+          newColumn.tasks.push({ ...task, status: task.status });
+        }
       }
     },
     removeTask: (state, action) => {

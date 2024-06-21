@@ -36,6 +36,10 @@ const Navigation = () => {
             </a>
           </li>
         ))}
+        <li className="flex items-center gap-4 py-2 pl-8 cursor-pointer">
+          <BoardIcon color="#635FC7" />
+          <a className="text-sm text-purple font-bold">+ Create New Board</a>
+        </li>
       </ul>
     </nav>
   );

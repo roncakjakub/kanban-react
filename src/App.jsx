@@ -1,7 +1,6 @@
-import React from "react";
 import { useState } from "react";
 import { ThemeContextProvider } from "./context/ThemeContext";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Sidebar from "./components/sidebar/Sidebar";
 import ShowSidebarBtn from "./components/ShowSidebarBtn";

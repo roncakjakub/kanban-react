@@ -1,10 +1,11 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isActiveModal: false,
   modalData: [],
   modalType: "",
   mode: "",
+  typeOfEditingItem: "",
 };
 
 const modalSlice = createSlice({
@@ -15,10 +16,11 @@ const modalSlice = createSlice({
       state.modalData = action.payload;
     },
     openModal: (state, action) => {
-      const [type, mode] = action.payload;
+      const [name, mode, type] = action.payload;
       state.isActiveModal = true;
-      state.modalType = type;
+      state.modalType = name;
       state.mode = mode;
+      state.typeOfEditingItem = type;
     },
     closeModal: (state) => {
       state.isActiveModal = false;

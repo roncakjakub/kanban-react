@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { useSelector } from "react-redux";
 import { selectColumnDataByType } from "../../store/boards-slice";
 import { findColumnsByCategory } from "../../helpers/helpers";

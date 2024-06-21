@@ -1,41 +1,25 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setModalData, openModal } from "../../store/modal-slice";
-
 import Task from "./Task";
+import useModalHandler from "../../hooks/useModalHandler";
 
 const Column = ({ tasks, columnName }) => {
-  const dispatch = useDispatch();
-  const currentBoardName = useSelector((store) => store.boardsState.boardName);
+  const { handleOpenModal } = useModalHandler();
 
-  const handleOpenModal = (taskData, mode) => {
-    const modalData = {
-      task: taskData,
-      boardName: currentBoardName,
-      columnName,
-    };
-
-    if (mode === "edit") {
-      dispatch(openModal(["taskDetail", ""]));
-    } else {
-      dispatch(openModal(["taskModal", "add"]));
-    }
-
-    dispatch(setModalData(modalData));
+  const modalSettings = {
+    name: "taskDetail",
+    mode: "edit",
+    type: "task",
   };
 
   return (
     <>
       <div className="flex flex-col flex-1">
-        <p
-          onClick={() => handleOpenModal([], "add")}
-          className="text-grayBlue text-sm tracking-widest uppercase mb-2 cursor-pointer"
-        >
+        <p className="text-grayBlue text-sm tracking-widest uppercase mb-2 cursor-pointer">
           {columnName}
         </p>
         {tasks && tasks.length > 0 ? (
           tasks.map((task, index) => (
             <Task
-              onClick={() => handleOpenModal(task, "edit")}
+              onClick={() => handleOpenModal(task, modalSettings)}
               key={index}
               task={task}
             />
