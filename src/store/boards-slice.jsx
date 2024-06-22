@@ -29,7 +29,6 @@ const initialState = {
   boardName: "Platform Launch",
 };
 
-// refactor
 const boardsSlice = createSlice({
   name: "boards",
   initialState,
@@ -45,6 +44,38 @@ const boardsSlice = createSlice({
       }, {});
       state.boards.push({ ...board, columns: columnsObject });
     },
+    updateBoard: (state, action) => {
+      const { oldBoardName, updatedBoard } = action.payload;
+      const existingBoard = state.boards.find(
+        (board) => board.name === oldBoardName
+      );
+
+      if (existingBoard) {
+        existingBoard.name = updatedBoard.name;
+
+        // Map new column names to existing columns, preserving tasks
+        const updatedColumns = updatedBoard.columns.reduce((acc, column) => {
+          const existingColumn =
+            existingBoard.columns[column.name.toLowerCase()];
+          acc[column.name.toLowerCase()] = existingColumn
+            ? { ...existingColumn, name: column.name }
+            : { ...column, tasks: [] }; // In case new columns are added
+          return acc;
+        }, {});
+
+        existingBoard.columns = updatedColumns;
+      }
+    },
+    removeBoard: (state, action) => {
+      const { boardName } = action.payload;
+      state.boards = state.boards.filter((board) => board.name !== boardName);
+
+      if (state.boardName === boardName && state.boards.length > 0) {
+        state.boardName = state.boards[0].name;
+      } else if (state.boards.length === 0) {
+        state.boardName = "";
+      }
+    },
     addTask: addTaskReducer,
     updateTask: updateTaskReducer,
     removeTask: removeTaskReducer,
@@ -58,6 +89,8 @@ const selectBoard = (state) =>
 export const {
   setBoardName,
   addBoard,
+  removeBoard,
+  updateBoard,
   addTask,
   updateTask,
   removeTask,

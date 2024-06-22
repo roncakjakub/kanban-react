@@ -5,6 +5,11 @@ import SettingsIcon from "../components/icons/SettingsIcon";
 const ActionMenu = ({ options, itemName }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleOptionAction = (action) => {
+    action();
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative">
       <button
@@ -18,7 +23,7 @@ const ActionMenu = ({ options, itemName }) => {
           {options.map((option, index) => (
             <p
               key={index}
-              onClick={option.action}
+              onClick={() => handleOptionAction(option.action)}
               className={`${
                 option.label === "Delete" ? "text-red" : "text-grayBlue"
               } text-sm cursor-pointer`}

@@ -3,10 +3,14 @@ import { useSelector } from "react-redux";
 
 import CrossIcon from "../icons/CrossIcon";
 import StatusSelect from "./StatusSelect";
-import useSubtaskHandler from "../../hooks/useSubtaskHandler";
 import useHandleSubmit from "../../hooks/useHandleSubmit";
 
-const ActionModal = ({ modalData, mode, type }) => {
+// refactor
+const TaskModal = () => {
+  const modalData = useSelector((state) => state.modalState.modalData);
+  const mode = useSelector((state) => state.modalState.mode);
+  const type = useSelector((state) => state.modalState.typeOfEditingItem);
+
   const { task, boardName, columnName } = modalData;
 
   const currentBoard = useSelector((state) =>
@@ -22,13 +26,24 @@ const ActionModal = ({ modalData, mode, type }) => {
     task?.status || defaultStatus
   );
 
-  const {
-    subtasks,
-    setSubtasks,
-    handleAddSubtask,
-    handleSubtaskChange,
-    handleSubtaskRemove,
-  } = useSubtaskHandler(boardName, currentStatus, task);
+  const [subtasks, setSubtasks] = useState(task?.subtasks || []);
+
+  const handleAddSubtask = () => {
+    setSubtasks([...subtasks, { title: "", isCompleted: false }]);
+  };
+
+  const handleSubtaskChange = (index, value) => {
+    const newSubtasks = subtasks.slice();
+    newSubtasks[index].title = value;
+    setSubtasks(newSubtasks);
+  };
+
+  const handleSubtaskRemove = (index) => {
+    const newSubtasks = subtasks.slice();
+    console.log(newSubtasks);
+    newSubtasks.splice(index, 1);
+    setSubtasks(newSubtasks);
+  };
 
   useEffect(() => {
     if (mode === "edit" && task) {
@@ -38,7 +53,6 @@ const ActionModal = ({ modalData, mode, type }) => {
       setCurrentStatus(task.status);
     }
   }, [mode, task, setSubtasks]);
-
 
   const handleStatusChange = (event) => {
     setCurrentStatus(event.target.value);
@@ -162,4 +176,4 @@ const ActionModal = ({ modalData, mode, type }) => {
   );
 };
 
-export default ActionModal;
+export default TaskModal;

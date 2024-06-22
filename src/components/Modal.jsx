@@ -2,7 +2,8 @@ import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 
 import TaskDetail from "./modal-content/TaskDetail";
-import ActionModal from "./modal-content/ActionModal";
+import TaskModal from "./modal-content/TaskModal";
+import BoardModal from "./modal-content/BoardModal";
 
 const modalOverlayStyle = {
   position: "fixed",
@@ -29,18 +30,19 @@ const modalContentStyle = {
 const Modal = () => {
   const modalData = useSelector((state) => state.modalState.modalData);
   const modalType = useSelector((state) => state.modalState.modalType);
-  const mode = useSelector((state) => state.modalState.mode);
-  const type = useSelector((state) => state.modalState.typeOfEditingItem);
 
   let modalContent;
   switch (modalType) {
     case "taskDetail":
       modalContent = <TaskDetail modalData={modalData} />;
       break;
-    case "actionModal":
+    case "taskModal":
       modalContent = (
-        <ActionModal modalData={modalData} mode={mode} type={type} />
+        <TaskModal />
       );
+      break;
+    case "boardModal":
+      modalContent = <BoardModal />;
       break;
     default:
       modalContent = null;

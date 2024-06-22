@@ -17,7 +17,7 @@ const Navigation = () => {
   };
 
   const modalSettings = {
-    name: "actionModal",
+    name: "boardModal",
     mode: "add",
     type: "board",
   };

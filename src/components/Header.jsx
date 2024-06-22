@@ -1,21 +1,51 @@
 import { useContext } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal } from "../store/modal-slice";
+import { removeBoard } from "../store/boards-slice";
 
 import LogoIcon from "./icons/LogoIcon";
 import ThemeContext from "../context/ThemeContext";
 import useModalHandler from "../hooks/useModalHandler";
+import ActionMenu from "./ActionMenu";
 
 const Header = ({ isVisibleSidebar }) => {
+  const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
   const currentBoardName = useSelector((state) => state.boardsState.boardName);
 
   const { handleOpenModal } = useModalHandler();
 
-  const modalSettings = {
-    name: "actionModal",
+  const taskModalSettings = {
+    name: "taskModal",
     mode: "add",
     type: "task",
   };
+
+  const boardModalSettings = {
+    name: "boardModal",
+    mode: "edit",
+    type: "board",
+  };
+
+  const handleDeleteBoard = () => {
+    dispatch(removeBoard({ boardName: currentBoardName }));
+    dispatch(closeModal());
+  };
+
+  const handleOpenEditingModal = () => {
+    handleOpenModal([], boardModalSettings);
+  };
+
+  const boardMenuOptions = [
+    {
+      label: "Edit",
+      action: handleOpenEditingModal,
+    },
+    {
+      label: "Delete",
+      action: handleDeleteBoard,
+    },
+  ];
 
   return (
     <div className={`${theme === "dark" ? "bg-mediumGray" : "bg-white"} flex`}>
@@ -32,12 +62,15 @@ const Header = ({ isVisibleSidebar }) => {
         >
           {currentBoardName}
         </h2>
-        <button
-          onClick={() => handleOpenModal([], modalSettings)}
-          className="bg-purple rounded-full py-3 px-4 text-white hover:opacity-70"
-        >
-          + Add New Task
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => handleOpenModal([], taskModalSettings)}
+            className="bg-purple rounded-full py-3 px-4 text-white hover:opacity-70"
+          >
+            + Add New Task
+          </button>
+          <ActionMenu options={boardMenuOptions} itemName="Board" />
+        </div>
       </div>
     </div>
   );

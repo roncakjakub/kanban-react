@@ -12,12 +12,7 @@ const useModalHandler = () => {
       columnName: taskData?.status || "Todo",
     };
    
-    if (modalSettings.mode === "edit") {
-      dispatch(openModal([modalSettings.name, modalSettings.mode, modalSettings.type]));
-    } else {
-      dispatch(openModal([modalSettings.name, modalSettings.mode, modalSettings.type]));
-    }
-
+    dispatch(openModal([modalSettings.name, modalSettings.mode, modalSettings.type]));
     dispatch(setModalData(modalData));
   };
 

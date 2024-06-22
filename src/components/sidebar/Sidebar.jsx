@@ -5,9 +5,11 @@ import ThemeToggler from "./ThemeToggler";
 import HideSidebarIcon from "../icons/HideSidebarIcon";
 
 import ThemeContext from "../../context/ThemeContext";
+import { useSelector } from "react-redux";
 
 const Sidebar = ({ hideSidebar }) => {
   const { theme } = useContext(ThemeContext);
+  const boardCounter = useSelector((state) => state.boardsState.boards).length;
 
   return (
     <aside
@@ -23,7 +25,7 @@ const Sidebar = ({ hideSidebar }) => {
         <div>
           <div className="mt-2">
             <p className="uppercase text-lightGrayText text-xs tracking-widest font-bold px-8 mb-8">
-              All boards (3)
+              All boards ({boardCounter})
             </p>
             <div className="pr-8">
               <Navigation />

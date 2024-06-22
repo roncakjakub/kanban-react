@@ -29,6 +29,7 @@ const useSubtaskHandler = (boardName, currentStatus, task) => {
 
   const handleSubtaskRemove = (index) => {
     const newSubtasks = subtasks.slice();
+    console.log(newSubtasks);
     newSubtasks.splice(index, 1);
     setSubtasks(newSubtasks);
   };

@@ -28,14 +28,14 @@ const useTaskActions = (modalData) => {
     dispatch(closeModal());
   };
 
-  const openActionModal = () => {
-    dispatch(openModal(["actionModal", "edit", "task"]));
+  const openTaskModal = () => {
+    dispatch(openModal(["taskModal", "edit", "task"]));
   };
 
-  const actionMenuOptions = [
+  const taskMenuOptions = [
     {
       label: "Edit",
-      action: openActionModal,
+      action: openTaskModal,
     },
     {
       label: "Delete",
@@ -46,7 +46,7 @@ const useTaskActions = (modalData) => {
   return {
     currentStatus,
     handleStatusChange,
-    actionMenuOptions,
+    taskMenuOptions,
   };
 };
 

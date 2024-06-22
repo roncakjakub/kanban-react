@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { updateTask, addTask, addBoard } from "../store/boards-slice";
+import { updateTask, addTask } from "../store/boards-slice";
 import { closeModal } from "../store/modal-slice";
 
 const useHandleSubmit = (subtasks, setSubtasks, type, mode, boardName, columnName, task, currentStatus) => {
@@ -13,8 +13,7 @@ const useHandleSubmit = (subtasks, setSubtasks, type, mode, boardName, columnNam
       ...subtask,
       title: fd.get(`subtask-${index}`),
     }));
-
-    if (type === "task") {
+   
       const taskData = {
         title: fd.get("title"),
         description: fd.get("description"),
@@ -30,18 +29,7 @@ const useHandleSubmit = (subtasks, setSubtasks, type, mode, boardName, columnNam
           addTask({ boardName, columnName: currentStatus, task: taskData })
         );
       }
-    } else if (type === "board") {
-      const columns = newSubtasks.map((subtask) => ({
-        name: subtask.title,
-        tasks: [],
-      }));
-      const boardData = {
-        name: fd.get("title"),
-        columns,
-      };
-
-      dispatch(addBoard({ board: boardData }));
-    }
+  
 
     dispatch(closeModal());
   };

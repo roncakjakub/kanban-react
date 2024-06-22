@@ -7,11 +7,13 @@ import { calculateCompletedSubtasks } from "../../helpers/helpers";
 import useCurrentTask from "../../hooks/useCurrentTask";
 import useTaskActions from "../../hooks/useTaskActions";
 import useSubtaskHandler from "../../hooks/useSubtaskHandler";
+import { useSelector } from "react-redux";
 
-const TaskDetail = ({ modalData }) => {
+const TaskDetail = () => {
+  const modalData = useSelector((state) => state.modalState.modalData);
   const { task, boardName } = modalData;
 
-  const { currentStatus, handleStatusChange, actionMenuOptions } =
+  const { currentStatus, handleStatusChange, taskMenuOptions } =
     useTaskActions(modalData);
 
   const currentTask = useCurrentTask(boardName, task, currentStatus);
@@ -29,7 +31,7 @@ const TaskDetail = ({ modalData }) => {
     <div className="p-4 rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-white text-xl font-bold">{currentTask.title}</h1>
-        <ActionMenu options={actionMenuOptions} itemName="Task" />
+        <ActionMenu options={taskMenuOptions} itemName="Task" />
       </div>
       <p className="text-grayBlue text-sm mb-4">{currentTask.description}</p>
       <p className="text-sm text-white font-bold mb-4">
