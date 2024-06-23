@@ -7,6 +7,13 @@ import {
   updateSubtaskStatusReducer,
 } from "../reducers/taskReducers";
 
+import {
+  setBoardNameReducer,
+  addBoardReducer,
+  updateBoardReducer,
+  removeBoardReducer,
+} from "../reducers/boardReducers";
+
 const platformLaunchData = extractColumns("Platform Launch");
 const marketingPlanData = extractColumns("Marketing Plan");
 const roadmapData = extractColumns("Roadmap");
@@ -33,49 +40,10 @@ const boardsSlice = createSlice({
   name: "boards",
   initialState,
   reducers: {
-    setBoardName: (state, action) => {
-      state.boardName = action.payload;
-    },
-    addBoard: (state, action) => {
-      const { board } = action.payload;
-      const columnsObject = board.columns.reduce((acc, column) => {
-        acc[column.name.toLowerCase()] = column;
-        return acc;
-      }, {});
-      state.boards.push({ ...board, columns: columnsObject });
-    },
-    updateBoard: (state, action) => {
-      const { oldBoardName, updatedBoard } = action.payload;
-      const existingBoard = state.boards.find(
-        (board) => board.name === oldBoardName
-      );
-
-      if (existingBoard) {
-        existingBoard.name = updatedBoard.name;
-
-        // Map new column names to existing columns, preserving tasks
-        const updatedColumns = updatedBoard.columns.reduce((acc, column) => {
-          const existingColumn =
-            existingBoard.columns[column.name.toLowerCase()];
-          acc[column.name.toLowerCase()] = existingColumn
-            ? { ...existingColumn, name: column.name }
-            : { ...column, tasks: [] }; // In case new columns are added
-          return acc;
-        }, {});
-
-        existingBoard.columns = updatedColumns;
-      }
-    },
-    removeBoard: (state, action) => {
-      const { boardName } = action.payload;
-      state.boards = state.boards.filter((board) => board.name !== boardName);
-
-      if (state.boardName === boardName && state.boards.length > 0) {
-        state.boardName = state.boards[0].name;
-      } else if (state.boards.length === 0) {
-        state.boardName = "";
-      }
-    },
+    setBoardName: setBoardNameReducer,
+    addBoard: addBoardReducer,
+    updateBoard: updateBoardReducer,
+    removeBoard: removeBoardReducer,
     addTask: addTaskReducer,
     updateTask: updateTaskReducer,
     removeTask: removeTaskReducer,

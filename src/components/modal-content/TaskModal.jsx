@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 
 import CrossIcon from "../icons/CrossIcon";
 import StatusSelect from "./StatusSelect";
-import useHandleSubmit from "../../hooks/useHandleSubmit";
 
-// refactor
+import useHandleTaskSubmit from "../../hooks/useHandleTaskSubmit";
+import useCurrentBoard from "../../hooks/useCurrentBoard";
+import subtaskReducer from "../../reducers/subtaskReducer";
+
 const TaskModal = () => {
   const modalData = useSelector((state) => state.modalState.modalData);
   const mode = useSelector((state) => state.modalState.mode);
   const type = useSelector((state) => state.modalState.typeOfEditingItem);
 
   const { task, boardName, columnName } = modalData;
+  const { defaultStatus } = useCurrentBoard(boardName);
 
-  const currentBoard = useSelector((state) =>
-    state.boardsState.boards.find((board) => board.name === boardName)
+  const [subtasks, dispatchSubtasks] = useReducer(
+    subtaskReducer,
+    task?.subtasks || []
   );
-
-  const columns = Object.values(currentBoard?.columns || {});
-  const defaultStatus = columns.length > 0 ? columns[0].name : "Todo";
 
   const [title, setTitle] = useState(task?.title || "");
   const [description, setDescription] = useState(task?.description || "");
@@ -26,41 +27,22 @@ const TaskModal = () => {
     task?.status || defaultStatus
   );
 
-  const [subtasks, setSubtasks] = useState(task?.subtasks || []);
-
-  const handleAddSubtask = () => {
-    setSubtasks([...subtasks, { title: "", isCompleted: false }]);
-  };
-
-  const handleSubtaskChange = (index, value) => {
-    const newSubtasks = subtasks.slice();
-    newSubtasks[index].title = value;
-    setSubtasks(newSubtasks);
-  };
-
-  const handleSubtaskRemove = (index) => {
-    const newSubtasks = subtasks.slice();
-    console.log(newSubtasks);
-    newSubtasks.splice(index, 1);
-    setSubtasks(newSubtasks);
-  };
-
   useEffect(() => {
     if (mode === "edit" && task) {
       setTitle(task.title);
       setDescription(task.description);
-      setSubtasks(task.subtasks);
+      dispatchSubtasks({ type: "SET_SUBTASKS", subtasks: task.subtasks });
       setCurrentStatus(task.status);
     }
-  }, [mode, task, setSubtasks]);
+  }, [mode, task]);
 
   const handleStatusChange = (event) => {
     setCurrentStatus(event.target.value);
   };
 
-  const handleSubmit = useHandleSubmit(
+  const handleSubmit = useHandleTaskSubmit(
     subtasks,
-    setSubtasks,
+    dispatchSubtasks,
     type,
     mode,
     boardName,
@@ -127,13 +109,21 @@ const TaskModal = () => {
                   type="text"
                   name={`subtask-${index}`}
                   value={subtask.title}
-                  onChange={(e) => handleSubtaskChange(index, e.target.value)}
+                  onChange={(e) =>
+                    dispatchSubtasks({
+                      type: "UPDATE_SUBTASK",
+                      index,
+                      value: e.target.value,
+                    })
+                  }
                   placeholder={type === "task" ? "Subtask" : "Column Name"}
                   className="flex-grow py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-sm text-white"
                 />
                 <button
                   type="button"
-                  onClick={() => handleSubtaskRemove(index)}
+                  onClick={() =>
+                    dispatchSubtasks({ type: "REMOVE_SUBTASK", index })
+                  }
                   className="text-red-500"
                 >
                   <CrossIcon />
@@ -142,7 +132,7 @@ const TaskModal = () => {
             ))}
             <button
               type="button"
-              onClick={handleAddSubtask}
+              onClick={() => dispatchSubtasks({ type: "ADD_SUBTASK" })}
               className="hover:opacity-70 text-purple text-sm font-bold bg-white w-full bg-purple-500 rounded-full p-3"
             >
               + Add New {type === "task" ? "Subtask" : "Column"}

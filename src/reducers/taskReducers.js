@@ -36,7 +36,7 @@ const updateSubtaskStatusReducer = (state, action) => {
   const { boardName, columnName, taskTitle, subtaskIndex } = action.payload;
   const board = state.boards.find((board) => board.name === boardName);
   if (!board) return;
-
+  
   let column = board.columns[columnName.toLowerCase()];
   let task = column.tasks.find((task) => task.title === taskTitle);
 

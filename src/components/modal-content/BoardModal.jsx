@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addBoard, updateBoard } from "../../store/boards-slice";
-import { closeModal } from "../../store/modal-slice";
+import { useEffect, useReducer, useState } from "react";
+import { useSelector } from "react-redux";
+
 import CrossIcon from "../icons/CrossIcon";
 
-// refactor
-const BoardModal = () => {
-  const dispatch = useDispatch();
+import columnsReducer from "../../reducers/columnsReducer";
+import useHandleBoardSubmit from "../../hooks/useHandleBoardSubmit";
 
+const BoardModal = () => {
   const mode = useSelector((state) => state.modalState.mode);
   const boardName = useSelector((state) => state.boardsState.boardName);
   const currentBoard = useSelector((state) =>
@@ -15,55 +14,33 @@ const BoardModal = () => {
   );
 
   const [title, setTitle] = useState(mode === "edit" ? boardName : "");
-  const [columns, setColumns] = useState(
+  const [columns, dispatchColumns] = useReducer(
+    columnsReducer,
     mode === "edit" && currentBoard
-      ? Object.values(currentBoard.columns).map((col) => ({ name: col.name }))
+      ? Object.values(currentBoard.columns).map((col) => ({
+          name: col.name,
+          tasks: col.tasks,
+        }))
       : []
   );
 
   useEffect(() => {
     if (mode === "edit" && currentBoard) {
       setTitle(currentBoard.name);
-      setColumns(
-        Object.values(currentBoard.columns).map((col) => ({ name: col.name }))
-      );
+      // is it necessary?
+      dispatchColumns({
+        type: "SET_COLUMNS",
+        payload: {
+          columns: Object.values(currentBoard.columns).map((col) => ({
+            name: col.name,
+            tasks: col.tasks,
+          })),
+        },
+      });
     }
   }, [mode, currentBoard]);
 
-  const handleAddColumn = () => {
-    setColumns([...columns, { name: "" }]);
-  };
-
-  const handleColumnChange = (index, value) => {
-    const newColumns = columns.slice();
-    newColumns[index].name = value;
-    setColumns(newColumns);
-  };
-
-  const handleColumnRemove = (index) => {
-    const newColumns = columns.slice();
-    newColumns.splice(index, 1);
-    setColumns(newColumns);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const boardData = {
-      name: title,
-      columns: columns.map((col) => ({ name: col.name, tasks: [] })),
-    };
-
-    if (mode === "edit") {
-      dispatch(
-        updateBoard({ oldBoardName: boardName, updatedBoard: boardData })
-      );
-    } else {
-      dispatch(addBoard({ board: boardData }));
-    }
-
-    dispatch(closeModal());
-  };
+  const handleSubmit = useHandleBoardSubmit(title, columns, mode, boardName);
 
   return (
     <div className="p-4 rounded-lg">
@@ -99,13 +76,23 @@ const BoardModal = () => {
                 <input
                   type="text"
                   value={column.name}
-                  onChange={(e) => handleColumnChange(index, e.target.value)}
+                  onChange={(e) =>
+                    dispatchColumns({
+                      type: "UPDATE_COLUMN",
+                      payload: { index, name: e.target.value },
+                    })
+                  }
                   placeholder="Column Name"
                   className="flex-grow py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-sm text-white"
                 />
                 <button
                   type="button"
-                  onClick={() => handleColumnRemove(index)}
+                  onClick={() =>
+                    dispatchColumns({
+                      type: "REMOVE_COLUMN",
+                      payload: { index },
+                    })
+                  }
                   className="text-red-500"
                 >
                   <CrossIcon />
@@ -114,7 +101,7 @@ const BoardModal = () => {
             ))}
             <button
               type="button"
-              onClick={handleAddColumn}
+              onClick={() => dispatchColumns({ type: "ADD_COLUMN" })}
               className="hover:opacity-70 text-purple text-sm font-bold bg-white w-full bg-purple-500 rounded-full p-3"
             >
               + Add New Column

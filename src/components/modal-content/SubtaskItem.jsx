@@ -6,7 +6,6 @@ const SubtaskItem = ({ subtask, onToggle }) => {
           type="checkbox"
           checked={subtask.isCompleted}
           onChange={onToggle}
-          readOnly
           className="custom-checkbox h-5 w-5"
         />
         <span

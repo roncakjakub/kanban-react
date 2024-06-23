@@ -1,7 +1,5 @@
 import { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../store/modal-slice";
-import { removeBoard } from "../store/boards-slice";
+import { useSelector } from "react-redux";
 
 import LogoIcon from "./icons/LogoIcon";
 import ThemeContext from "../context/ThemeContext";
@@ -9,9 +7,8 @@ import useModalHandler from "../hooks/useModalHandler";
 import ActionMenu from "./ActionMenu";
 
 const Header = ({ isVisibleSidebar }) => {
-  const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
-  const currentBoardName = useSelector((state) => state.boardsState.boardName);
+  const boardName = useSelector((state) => state.boardsState.boardName);
 
   const { handleOpenModal } = useModalHandler();
 
@@ -20,32 +17,6 @@ const Header = ({ isVisibleSidebar }) => {
     mode: "add",
     type: "task",
   };
-
-  const boardModalSettings = {
-    name: "boardModal",
-    mode: "edit",
-    type: "board",
-  };
-
-  const handleDeleteBoard = () => {
-    dispatch(removeBoard({ boardName: currentBoardName }));
-    dispatch(closeModal());
-  };
-
-  const handleOpenEditingModal = () => {
-    handleOpenModal([], boardModalSettings);
-  };
-
-  const boardMenuOptions = [
-    {
-      label: "Edit",
-      action: handleOpenEditingModal,
-    },
-    {
-      label: "Delete",
-      action: handleDeleteBoard,
-    },
-  ];
 
   return (
     <div className={`${theme === "dark" ? "bg-mediumGray" : "bg-white"} flex`}>
@@ -60,7 +31,7 @@ const Header = ({ isVisibleSidebar }) => {
             theme === "dark" ? "text-white" : "text-gray"
           } text-2xl font-bold`}
         >
-          {currentBoardName}
+          {boardName}
         </h2>
         <div className="flex items-center gap-4">
           <button
@@ -69,7 +40,7 @@ const Header = ({ isVisibleSidebar }) => {
           >
             + Add New Task
           </button>
-          <ActionMenu options={boardMenuOptions} itemName="Board" />
+          <ActionMenu boardName={boardName} itemName="Board" />
         </div>
       </div>
     </div>

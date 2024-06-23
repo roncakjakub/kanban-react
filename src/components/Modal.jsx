@@ -1,5 +1,6 @@
 import { createPortal } from "react-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal } from "../store/modal-slice";
 
 import TaskDetail from "./modal-content/TaskDetail";
 import TaskModal from "./modal-content/TaskModal";
@@ -28,6 +29,7 @@ const modalContentStyle = {
 };
 
 const Modal = () => {
+  const dispatch = useDispatch();
   const modalData = useSelector((state) => state.modalState.modalData);
   const modalType = useSelector((state) => state.modalState.modalType);
 
@@ -37,9 +39,7 @@ const Modal = () => {
       modalContent = <TaskDetail modalData={modalData} />;
       break;
     case "taskModal":
-      modalContent = (
-        <TaskModal />
-      );
+      modalContent = <TaskModal />;
       break;
     case "boardModal":
       modalContent = <BoardModal />;
@@ -48,9 +48,19 @@ const Modal = () => {
       modalContent = null;
   }
 
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      dispatch(closeModal());
+    }
+  };
+
   return createPortal(
-    <div style={modalOverlayStyle}>
-      <div className="bg-mediumGray" style={modalContentStyle}>
+    <div onClick={handleOverlayClick} style={modalOverlayStyle}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-mediumGray"
+        style={modalContentStyle}
+      >
         {modalContent}
       </div>
     </div>,

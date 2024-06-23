@@ -2,27 +2,54 @@ import ActionMenu from "../ActionMenu";
 import StatusSelect from "./StatusSelect";
 import SubtaskItem from "./SubtaskItem";
 
+import { useDispatch, useSelector } from "react-redux";
 import { calculateCompletedSubtasks } from "../../helpers/helpers";
+import { updateSubtaskStatus, updateTask } from "../../store/boards-slice";
+import { setModalData } from "../../store/modal-slice";
+import { useState, useEffect } from "react";
 
 import useCurrentTask from "../../hooks/useCurrentTask";
-import useTaskActions from "../../hooks/useTaskActions";
-import useSubtaskHandler from "../../hooks/useSubtaskHandler";
-import { useSelector } from "react-redux";
 
 const TaskDetail = () => {
+  const dispatch = useDispatch();
   const modalData = useSelector((state) => state.modalState.modalData);
-  const { task, boardName } = modalData;
 
-  const { currentStatus, handleStatusChange, taskMenuOptions } =
-    useTaskActions(modalData);
+  const { task, boardName, columnName } = modalData;
 
-  const currentTask = useCurrentTask(boardName, task, currentStatus);
+  const currentTask = useCurrentTask(boardName, task, columnName);
 
-  const { handleSubtaskToggle } = useSubtaskHandler(
-    boardName,
-    currentStatus,
-    task
-  );
+  const [currentStatus, setCurrentStatus] = useState(task.status);
+
+  useEffect(() => {
+    if (task) {
+      setCurrentStatus(task.status);
+    }
+  }, [task]);
+
+  const handleStatusChange = (event) => {
+    const newStatus = event.target.value;
+    const updatedTask = { ...task, status: newStatus, oldTask: task };
+    setCurrentStatus(newStatus);
+    dispatch(updateTask({ boardName, task: updatedTask }));
+    dispatch(
+      setModalData({
+        boardName,
+        columName: updatedTask.status,
+        task: updatedTask,
+      })
+    );
+  };
+
+  const handleSubtaskToggle = (index) => {
+    dispatch(
+      updateSubtaskStatus({
+        boardName,
+        columnName,
+        taskTitle: task.title,
+        subtaskIndex: index,
+      })
+    );
+  };
 
   const { completedSubtasksCount, allSubtasksCount } =
     calculateCompletedSubtasks(currentTask);
@@ -31,7 +58,7 @@ const TaskDetail = () => {
     <div className="p-4 rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-white text-xl font-bold">{currentTask.title}</h1>
-        <ActionMenu options={taskMenuOptions} itemName="Task" />
+        <ActionMenu boardName={boardName} task={task} itemName="Task" />
       </div>
       <p className="text-grayBlue text-sm mb-4">{currentTask.description}</p>
       <p className="text-sm text-white font-bold mb-4">

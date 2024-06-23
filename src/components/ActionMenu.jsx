@@ -1,14 +1,26 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import SettingsIcon from "../components/icons/SettingsIcon";
 
-const ActionMenu = ({ options, itemName }) => {
+import {
+  getBoardMenuOptions,
+  getTaskMenuOptions,
+} from "./utils/actionMenuOptions";
+
+const ActionMenu = ({ boardName, task, itemName }) => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionAction = (action) => {
     action();
     setIsOpen(false);
   };
+
+  const options =
+    itemName === "Task"
+      ? getTaskMenuOptions(dispatch, boardName, task)
+      : getBoardMenuOptions(dispatch, boardName);
 
   return (
     <div className="relative">
