@@ -34,7 +34,7 @@ const TaskDetail = () => {
     dispatch(
       setModalData({
         boardName,
-        columName: updatedTask.status,
+        columnName: updatedTask.status,
         task: updatedTask,
       })
     );

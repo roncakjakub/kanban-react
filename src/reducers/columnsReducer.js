@@ -1,7 +1,7 @@
 export const columnsReducer = (state, action) => {
     switch (action.type) {
       case "ADD_COLUMN":
-        return [...state, { name: "" }];
+        return [...state, { name: "" , tasks: []}];
       case "UPDATE_COLUMN":
         return state.map((column, index) =>
           index === action.payload.index

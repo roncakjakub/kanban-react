@@ -4,6 +4,10 @@ const addTaskReducer = (state, action) => {
 
   if (board) {
     const column = board.columns[columnName.toLowerCase()];
+
+    if (!column.tasks) {
+      column.tasks = [];
+    }
     column.tasks.push(task);
   }
 };
@@ -14,10 +18,17 @@ const updateTaskReducer = (state, action) => {
 
   if (board) {
     Object.keys(board.columns).forEach((columnKey) => {
+      if (!board.columns[columnKey].tasks) {
+        board.columns[columnKey].tasks = [];
+      }
       board.columns[columnKey].tasks = board.columns[columnKey].tasks.filter((t) => t.title !== task.oldTask.title);
     });
 
     const newColumn = board.columns[task.status.toLowerCase()];
+
+    if (!newColumn.tasks) {
+      newColumn.tasks = [];
+    }
     newColumn.tasks.push({ ...task, status: task.status });
   }
 };

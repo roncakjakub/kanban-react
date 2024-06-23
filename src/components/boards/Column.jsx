@@ -19,7 +19,7 @@ const Column = ({ tasks, columnName }) => {
         {tasks && tasks.length > 0 ? (
           tasks.map((task, index) => (
             <Task
-              onClick={() => handleOpenModal(task, modalSettings)}
+              onClick={() => handleOpenModal(task, modalSettings, columnName)}
               key={index}
               task={task}
             />

@@ -32,3 +32,13 @@ export function calculateCompletedSubtasks(task) {
     allSubtasksCount,
   };
 }
+
+export function prepareBoardData(name, columns, includeTasks = false) {
+  return {
+    name,
+    columns: columns.map((col) => ({
+      name: col.name,
+      tasks: includeTasks ? col.tasks : [],
+    })),
+  };
+}

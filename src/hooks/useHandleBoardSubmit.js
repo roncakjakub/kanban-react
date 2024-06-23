@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { addBoard, updateBoard } from "../store/boards-slice";
 import { closeModal } from "../store/modal-slice";
+import { prepareBoardData } from "../helpers/helpers";
 
 const useHandleBoardSubmit = (title, columns, mode, boardName) => {
   const dispatch = useDispatch();
@@ -9,17 +10,10 @@ const useHandleBoardSubmit = (title, columns, mode, boardName) => {
     event.preventDefault();
 
     if (mode === "edit") {
-      const boardData = {
-        name: title,
-        columns: columns.map((col) => ({ name: col.name, tasks: col.tasks })),
-      };  
-
+      const boardData = prepareBoardData(title, columns, true);
       dispatch(updateBoard({ oldBoardName: boardName, updatedBoard: boardData }));
     } else {
-      const boardData = {
-        name: title,
-        columns: columns.map((col) => ({ name: col.name, tasks: [] })),
-      };
+      const boardData = prepareBoardData(title, columns);
       dispatch(addBoard({ board: boardData }));
     }
 
