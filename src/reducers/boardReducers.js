@@ -28,7 +28,6 @@ const setBoardNameReducer = (state, action) => {
   
   export default updateBoardReducer;
   
-  
   const removeBoardReducer = (state, action) => {
     const { boardName } = action.payload;
     state.boards = state.boards.filter((board) => board.name !== boardName);

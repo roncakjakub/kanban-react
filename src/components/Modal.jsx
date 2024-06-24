@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../store/modal-slice";
@@ -5,7 +6,9 @@ import { closeModal } from "../store/modal-slice";
 import TaskDetail from "./modal-content/TaskDetail";
 import TaskModal from "./modal-content/TaskModal";
 import BoardModal from "./modal-content/BoardModal";
+import ThemeContext from "../context/ThemeContext";
 
+// to css file
 const modalOverlayStyle = {
   position: "fixed",
   top: 0,
@@ -29,6 +32,8 @@ const modalContentStyle = {
 };
 
 const Modal = () => {
+  const { theme } = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const modalData = useSelector((state) => state.modalState.modalData);
   const modalType = useSelector((state) => state.modalState.modalType);
@@ -58,7 +63,7 @@ const Modal = () => {
     <div onClick={handleOverlayClick} style={modalOverlayStyle}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-mediumGray"
+        className={`${theme === "dark" ? "bg-mediumGray" : "bg-lightestBlue"}`}
         style={modalContentStyle}
       >
         {modalContent}

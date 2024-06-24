@@ -1,12 +1,14 @@
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 
 import CrossIcon from "../icons/CrossIcon";
 
 import columnsReducer from "../../reducers/columnsReducer";
 import useHandleBoardSubmit from "../../hooks/useHandleBoardSubmit";
+import ThemeContext from "../../context/ThemeContext";
 
 const BoardModal = () => {
+  const { theme } = useContext(ThemeContext);
   const mode = useSelector((state) => state.modalState.mode);
   const boardName = useSelector((state) => state.boardsState.boardName);
   const currentBoard = useSelector((state) =>
@@ -44,14 +46,20 @@ const BoardModal = () => {
 
   return (
     <div className="p-4 rounded-lg">
-      <h2 className="text-xl font-bold text-white mb-4">
+      <h2
+        className={`${
+          theme === "dark" ? "text-white" : "text-darkBlue"
+        } text-xl font-bold mb-4`}
+      >
         {mode === "edit" ? "Edit Board" : "Add New Board"}
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
           <div>
             <label
-              className="block text-sm text-white font-bold mb-2"
+              className={`${
+                theme === "dark" ? "text-white" : "text-lightGrayText"
+              } block text-sm font-bold mb-2`}
               htmlFor="title"
             >
               Board Name
@@ -63,12 +71,20 @@ const BoardModal = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Web Design"
-              className="w-full py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-white"
+              className={`${
+                theme === "dark"
+                  ? "bg-mediumGray text-white"
+                  : "bg-lightestBlue text-darkBlue"
+              } w-full py-2 px-3 rounded-md border border-grayBlue`}
             />
           </div>
 
           <div className="space-y-3">
-            <label className="block text-sm text-white font-bold mb-2">
+            <label
+              className={`${
+                theme === "dark" ? "text-white" : "text-lightGrayText"
+              } block text-sm font-bold mb-2`}
+            >
               Board Columns
             </label>
             {columns.map((column, index) => (
@@ -83,7 +99,11 @@ const BoardModal = () => {
                     })
                   }
                   placeholder="Column Name"
-                  className="flex-grow py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-sm text-white"
+                  className={`${
+                    theme === "dark"
+                      ? "bg-mediumGray text-white"
+                      : "bg-lightestBlue text-darkBlue"
+                  } flex-grow py-2 px-3 rounded-md border border-grayBlue text-sm`}
                 />
                 <button
                   type="button"
@@ -102,7 +122,9 @@ const BoardModal = () => {
             <button
               type="button"
               onClick={() => dispatchColumns({ type: "ADD_COLUMN" })}
-              className="hover:opacity-70 text-purple text-sm font-bold bg-white w-full bg-purple-500 rounded-full p-3"
+              className={`${
+                theme === "dark" ? "bg-white" : "bg-lightBlue"
+              } hover:opacity-70 text-purple text-sm font-bold w-full bg-purple-500 rounded-full p-3`}
             >
               + Add New Column
             </button>

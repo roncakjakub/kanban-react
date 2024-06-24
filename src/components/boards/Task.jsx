@@ -17,7 +17,7 @@ const Task = ({ onClick, task }) => {
     >
       <p
         className={`${
-          theme === "dark" ? "text-white" : "text-mediumGray"
+          theme === "dark" ? "text-white" : "text-darkBlue"
         } text-sm break-words font-bold py-1`}
       >
         {task.title}

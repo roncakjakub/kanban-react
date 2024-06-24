@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 
 import CrossIcon from "../icons/CrossIcon";
@@ -7,8 +7,10 @@ import StatusSelect from "./StatusSelect";
 import useHandleTaskSubmit from "../../hooks/useHandleTaskSubmit";
 import useCurrentBoard from "../../hooks/useCurrentBoard";
 import subtaskReducer from "../../reducers/subtaskReducer";
+import ThemeContext from "../../context/ThemeContext";
 
 const TaskModal = () => {
+  const { theme } = useContext(ThemeContext);
   const modalData = useSelector((state) => state.modalState.modalData);
   const mode = useSelector((state) => state.modalState.mode);
   const type = useSelector((state) => state.modalState.typeOfEditingItem);
@@ -53,7 +55,11 @@ const TaskModal = () => {
 
   return (
     <div className="p-4 rounded-lg">
-      <h2 className="text-xl font-bold text-white mb-4">
+      <h2
+        className={`${
+          theme === "dark" ? "text-white" : "text-darkBlue"
+        } text-xl font-bold mb-4`}
+      >
         {mode === "edit"
           ? type === "task"
             ? "Edit Task"
@@ -66,7 +72,9 @@ const TaskModal = () => {
         <div className="space-y-4">
           <div>
             <label
-              className="block text-sm text-white font-bold mb-2"
+              className={`${
+                theme === "dark" ? "text-white" : "text-lightGrayText"
+              } block text-sm font-bold mb-2`}
               htmlFor="title"
             >
               {type === "task" ? "Title" : "Board Name"}
@@ -78,13 +86,19 @@ const TaskModal = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder={type === "task" ? "Title" : "e.g. Web Design"}
-              className="w-full py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-white"
+              className={`${
+                theme === "dark"
+                  ? "bg-mediumGray text-white"
+                  : "bg-lightestBlue text-darkBlue"
+              } w-full py-2 px-3 rounded-md border border-grayBlue`}
             />
           </div>
           {type === "task" && (
             <div>
               <label
-                className="block text-sm text-white font-bold mb-2"
+                className={`${
+                  theme === "dark" ? "text-white" : "text-lightGrayText"
+                } block text-sm font-bold mb-2`}
                 htmlFor="description"
               >
                 Description
@@ -95,12 +109,20 @@ const TaskModal = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Description"
-                className="w-full py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-white"
+                className={`${
+                  theme === "dark"
+                    ? "bg-mediumGray text-white"
+                    : "bg-white text-darkBlue"
+                } w-full py-2 px-3 rounded-md border border-grayBlue`}
               />
             </div>
           )}
           <div className="space-y-3">
-            <label className="block text-sm text-white font-bold mb-2">
+            <label
+              className={`${
+                theme === "dark" ? "text-white" : "text-lightGrayText"
+              } block text-sm font-bold mb-2`}
+            >
               {type === "task" ? "Subtasks" : "Board Columns"}
             </label>
             {subtasks.map((subtask, index) => (
@@ -117,7 +139,11 @@ const TaskModal = () => {
                     })
                   }
                   placeholder={type === "task" ? "Subtask" : "Column Name"}
-                  className="flex-grow py-2 px-3 rounded-md bg-mediumGray border border-grayBlue text-sm text-white"
+                  className={`${
+                    theme === "dark"
+                      ? "bg-mediumGray text-white"
+                      : "bg-white text-darkBlue"
+                  } flex-grow py-2 px-3 rounded-md b border border-grayBlue text-sm`}
                 />
                 <button
                   type="button"
@@ -133,7 +159,9 @@ const TaskModal = () => {
             <button
               type="button"
               onClick={() => dispatchSubtasks({ type: "ADD_SUBTASK" })}
-              className="hover:opacity-70 text-purple text-sm font-bold bg-white w-full bg-purple-500 rounded-full p-3"
+              className={`${
+                theme === "dark" ? "bg-white" : "bg-lightBlue"
+              } hover:opacity-70 text-purple text-sm font-bold w-full bg-purple-500 rounded-full p-3`}
             >
               + Add New {type === "task" ? "Subtask" : "Column"}
             </button>
@@ -141,7 +169,9 @@ const TaskModal = () => {
           {type === "task" && (
             <div>
               <label
-                className="block text-sm text-white font-bold mb-2"
+                className={`${
+                  theme === "dark" ? "text-white" : "text-lightGrayText"
+                } block text-sm font-bold mb-2`}
                 htmlFor="status"
               >
                 Status

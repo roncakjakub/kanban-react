@@ -1,6 +1,16 @@
+import { useContext } from "react";
+
+import ThemeContext from "../../context/ThemeContext";
+
 const SubtaskItem = ({ subtask, onToggle }) => {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <div className="flex items-center p-3 bg-darkGray space-x-2">
+    <div
+      className={`${
+        theme === "dark" ? "bg-darkGray" : "bg-lightBlue"
+      } flex items-center p-3 space-x-2`}
+    >
       <label className="flex items-center space-x-4 cursor-pointer">
         <input
           type="checkbox"
@@ -10,7 +20,11 @@ const SubtaskItem = ({ subtask, onToggle }) => {
         />
         <span
           className={`text-sm ${
-            subtask.isCompleted ? "line-through text-grayBlue" : "text-white"
+            subtask.isCompleted
+              ? "line-through text-grayBlue"
+              : theme === "dark"
+              ? "text-white"
+              : "text-darkBlue"
           }`}
         >
           {subtask.title}

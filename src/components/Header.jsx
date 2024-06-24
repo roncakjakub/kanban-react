@@ -28,7 +28,7 @@ const Header = ({ isVisibleSidebar }) => {
       >
         <h2
           className={`${
-            theme === "dark" ? "text-white" : "text-gray"
+            theme === "dark" ? "text-white" : "text-darkBlue"
           } text-2xl font-bold`}
         >
           {boardName}

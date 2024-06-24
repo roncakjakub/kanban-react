@@ -5,6 +5,7 @@ const useModalHandler = () => {
   const dispatch = useDispatch();
   const currentBoardName = useSelector((store) => store.boardsState.boardName);
 
+  // refactor
   const handleOpenModal = (taskData, modalSettings, columnName = "") => {
     const modalData = {
       task: taskData,

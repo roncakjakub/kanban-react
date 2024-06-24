@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Boards from "./components/boards/Boards";
 import Modal from "./components/Modal";
 
+// TODO: Hovering
 const App = () => {
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(true);
   const isActiveModal = useSelector((state) => state.modalState.isActiveModal);

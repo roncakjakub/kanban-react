@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import SettingsIcon from "../components/icons/SettingsIcon";
@@ -8,7 +8,10 @@ import {
   getTaskMenuOptions,
 } from "./utils/actionMenuOptions";
 
+import ThemeContext from "../context/ThemeContext";
+
 const ActionMenu = ({ boardName, task, itemName }) => {
+  const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,7 +34,11 @@ const ActionMenu = ({ boardName, task, itemName }) => {
         <SettingsIcon />
       </button>
       {isOpen && (
-        <div className="absolute space-y-3 right-0 mt-2 w-48 p-4 bg-darkGray rounded-md shadow-lg z-50">
+        <div
+          className={`${
+            theme === "dark" ? "bg-darkGray" : "bg-white"
+          } absolute space-y-3 right-0 mt-2 w-48 p-4 rounded-md shadow-lg z-50`}
+        >
           {options.map((option, index) => (
             <p
               key={index}

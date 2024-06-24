@@ -51,6 +51,7 @@ const boardsSlice = createSlice({
   },
 });
 
+// replace
 const selectBoard = (state) =>
   state.boards.find((board) => board.name === state.boardName);
 

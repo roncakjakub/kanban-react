@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { calculateCompletedSubtasks } from "../../helpers/helpers";
 import { updateSubtaskStatus, updateTask } from "../../store/boards-slice";
 import { setModalData } from "../../store/modal-slice";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import useCurrentTask from "../../hooks/useCurrentTask";
+import ThemeContext from "../../context/ThemeContext";
 
 const TaskDetail = () => {
+  const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const modalData = useSelector((state) => state.modalState.modalData);
 
@@ -57,11 +59,17 @@ const TaskDetail = () => {
   return (
     <div className="p-4 rounded-lg">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-white text-xl font-bold">{currentTask.title}</h1>
+        <h1 className={`${
+          theme === "dark" ? "text-white" : "text-darkBlue"
+        } text-xl font-bold`}>{currentTask.title}</h1>
         <ActionMenu boardName={boardName} task={task} itemName="Task" />
       </div>
-      <p className="text-grayBlue text-sm mb-4">{currentTask.description}</p>
-      <p className="text-sm text-white font-bold mb-4">
+      <p className={`${
+                theme === "dark" ? "text-white" : "text-lightGrayText"
+              } text-sm mb-4`}>{currentTask.description}</p>
+      <p className={`${
+                theme === "dark" ? "text-white" : "text-lightGrayText"
+              } text-sm font-bold mb-4`}>
         Subtasks ({completedSubtasksCount} of {allSubtasksCount})
       </p>
       <div className="space-y-4">
@@ -74,7 +82,9 @@ const TaskDetail = () => {
         ))}
       </div>
       <div className="mt-6">
-        <label className="block text-sm text-white font-bold mb-2">
+        <label className={`${
+                theme === "dark" ? "text-white" : "text-lightGrayText"
+              } block text-sm font-bold mb-2`}>
           Current Status
         </label>
         <StatusSelect

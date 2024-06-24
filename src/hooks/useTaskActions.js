@@ -4,6 +4,7 @@ import { closeModal, openModal, setModalData } from "../store/modal-slice";
 import { useState, useEffect } from "react";
 
 const useTaskActions = (modalData) => {
+  // refactor
   const dispatch = useDispatch();
   const { task, boardName, columName } = modalData;
 

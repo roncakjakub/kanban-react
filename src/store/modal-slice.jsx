@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// refactor
 const initialState = {
   isActiveModal: false,
   modalData: [],
