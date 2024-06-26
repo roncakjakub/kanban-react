@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { selectBoard } from "../../store/boards-slice";
 
@@ -13,7 +13,10 @@ const Boards = () => {
     selectBoard(state.boardsState, boardName)
   );
 
-  const columns = board ? Object.values(board.columns) : [];
+  const columns = useMemo(
+    () => (board ? Object.values(board.columns) : []),
+    [board]
+  );
 
   const boardModalSettings = {
     name: "boardModal",

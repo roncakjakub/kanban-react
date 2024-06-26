@@ -33,10 +33,15 @@ const modalContentStyle = {
 
 const Modal = () => {
   const { theme } = useContext(ThemeContext);
-
   const dispatch = useDispatch();
+
+  const isActiveModal = useSelector((state) => state.modalState.isActiveModal);
   const modalData = useSelector((state) => state.modalState.modalData);
   const modalType = useSelector((state) => state.modalState.modalType);
+
+  if (!isActiveModal) {
+    return null;
+  }
 
   let modalContent;
   switch (modalType) {

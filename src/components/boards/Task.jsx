@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { memo, useContext } from "react";
 import { calculateCompletedSubtasks } from "../../helpers/helpers";
 
 import ThemeContext from "../../context/ThemeContext";
@@ -29,4 +29,4 @@ const Task = ({ onClick, task }) => {
   );
 };
 
-export default Task;
+export default memo(Task);

@@ -18,6 +18,7 @@ const TaskModal = () => {
   const { task, boardName, columnName } = modalData;
   const { defaultStatus } = useCurrentBoard(boardName);
 
+  // Refactor -> create multiple components and move logic which is related to them...
   const [subtasks, dispatchSubtasks] = useReducer(
     subtaskReducer,
     task?.subtasks || []
@@ -38,6 +39,7 @@ const TaskModal = () => {
     }
   }, [mode, task]);
 
+  // optimize
   const handleStatusChange = (event) => {
     setCurrentStatus(event.target.value);
   };
@@ -68,6 +70,7 @@ const TaskModal = () => {
           ? "Add New Task"
           : "Add New Board"}
       </h2>
+      {/* NEW COMPONENT */}
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
           <div>
@@ -118,6 +121,7 @@ const TaskModal = () => {
             </div>
           )}
           <div className="space-y-3">
+            {/* NEW COMPONENT */}
             <label
               className={`${
                 theme === "dark" ? "text-white" : "text-lightGrayText"

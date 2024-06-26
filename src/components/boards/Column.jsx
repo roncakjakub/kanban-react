@@ -1,5 +1,6 @@
 import Task from "./Task";
 import useModalHandler from "../../hooks/useModalHandler";
+import { memo } from "react";
 
 const Column = ({ tasks, columnName }) => {
   const { handleOpenModal } = useModalHandler();
@@ -32,4 +33,4 @@ const Column = ({ tasks, columnName }) => {
   );
 };
 
-export default Column;
+export default memo(Column);

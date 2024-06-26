@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { useSelector } from "react-redux";
 import ThemeContext from "../../context/ThemeContext";
 
@@ -7,10 +7,15 @@ const StatusSelect = ({ currentStatus, onChange }) => {
   const boardName = useSelector((state) => state.boardsState.boardName);
   const boards = useSelector((state) => state.boardsState.boards);
 
-  const matchingBoard = boards.find((board) => board.name === boardName);
-  const statuses = Object.keys(matchingBoard.columns).map(
-    (status) => status.charAt(0).toUpperCase() + status.slice(1)
-  );
+  const matchingBoard = useMemo(() => {
+    return boards.find((board) => board.name === boardName);
+  }, [boards, boardName]);
+
+  const statuses = useMemo(() => {
+    return Object.keys(matchingBoard.columns).map(
+      (status) => status.charAt(0).toUpperCase() + status.slice(1)
+    );
+  }, [matchingBoard.columns]);
 
   return (
     <div className="custom-select">
