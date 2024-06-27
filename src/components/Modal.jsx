@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../store/modal-slice";
 
 import TaskDetail from "./modal-content/TaskDetail";
-import TaskModal from "./modal-content/TaskModal";
+import TaskModal from "./modal-content/task-modal/TaskModal";
 import BoardModal from "./modal-content/BoardModal";
 import ThemeContext from "../context/ThemeContext";
 
