@@ -25,6 +25,9 @@ export default {
         white: '#FFFFFF',
         red: '#EA5555',
         lightRed: '#FF9898',
+      },
+      screens: {
+        "sm": "671px",
       }
     },
   },

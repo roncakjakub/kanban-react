@@ -6,7 +6,7 @@ import SettingsIcon from "../components/icons/SettingsIcon";
 import {
   getBoardMenuOptions,
   getTaskMenuOptions,
-} from "./utils/actionMenuOptions";
+} from "../utils/actionMenuOptions";
 
 import ThemeContext from "../context/ThemeContext";
 
@@ -44,7 +44,7 @@ const ActionMenu = ({ boardName, task, itemName }) => {
               key={index}
               onClick={() => handleOptionAction(option.action)}
               className={`${
-                option.label === "Delete" ? "text-red" : "text-grayBlue"
+                option.label === "Delete" ? "text-red hover:text-lightRed" : "text-grayBlue hover:text-lightGrayText"
               } text-sm cursor-pointer`}
             >
               {option.label} {itemName}

@@ -8,7 +8,7 @@ const LogoIcon = ({ isVisibleSidebar }) => {
     <div
       className={`${theme === "dark" ? "border-grayBlue" : ""} ${
         !isVisibleSidebar && "border-grayBlue border-b"
-      } p-8 width-250 border-r`}
+      } p-8 width-250 border-r hidden sm:block`}
     >
       {theme === "dark" ? (
         <svg width="153" height="26" xmlns="http://www.w3.org/2000/svg">

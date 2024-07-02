@@ -26,11 +26,16 @@ const Boards = () => {
 
   const { handleOpenModal } = useModalHandler();
 
+  const handleAddColumn = () => {
+    if (boardName === "") return;
+    handleOpenModal([], boardModalSettings);
+  };
+
   return (
     <div
       className={`${
         theme === "dark" ? "bg-darkGray" : "bg-lightestBlue"
-      } w-screen h-screen p-6`}
+      } w-full h-screen overflow-y-hidden p-6`}
     >
       {columns.length > 0 ? (
         <div className="flex">
@@ -44,8 +49,8 @@ const Boards = () => {
             This board is empty. Create a new column to get started.
           </p>
           <button
-            onClick={() => handleOpenModal([], boardModalSettings)}
-            className="bg-purple text-white font-bold py-2 px-4 rounded-full"
+            onClick={handleAddColumn}
+            className="bg-purple text-white font-bold py-2 px-4 rounded-full hover:opacity-70"
           >
             + Add New Column
           </button>

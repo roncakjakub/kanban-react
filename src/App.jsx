@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ThemeContextProvider } from "./context/ThemeContext";
 
 import Sidebar from "./components/sidebar/Sidebar";
@@ -7,17 +6,12 @@ import Boards from "./components/boards/Boards";
 import Modal from "./components/Modal";
 
 const App = () => {
-  const [isVisibleSidebar, setIsVisibleSidebar] = useState(true);
-
   return (
     <>
       <ThemeContextProvider>
-        <Header isVisibleSidebar={isVisibleSidebar} />
+        <Header />
         <div className="flex">
-          <Sidebar
-            isVisibleSidebar={isVisibleSidebar}
-            setIsVisibleSidebar={setIsVisibleSidebar}
-          />
+          <Sidebar />
           <Boards />
         </div>
         <Modal />

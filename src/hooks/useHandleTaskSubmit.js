@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { updateTask, addTask } from "../store/boards-slice";
 import { closeModal } from "../store/modal-slice";
 
-const useHandleSubmit = (subtasks, setSubtasks, type, mode, boardName, columnName, task, currentStatus) => {
+const useHandleTaskSubmit = (subtasks, setSubtasks, type, mode, boardName, columnName, task, currentStatus) => {
   const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
@@ -29,7 +29,6 @@ const useHandleSubmit = (subtasks, setSubtasks, type, mode, boardName, columnNam
           addTask({ boardName, columnName: currentStatus, task: taskData })
         );
       }
-  
 
     dispatch(closeModal());
   };
@@ -37,4 +36,4 @@ const useHandleSubmit = (subtasks, setSubtasks, type, mode, boardName, columnNam
   return handleSubmit;
 };
 
-export default useHandleSubmit;
+export default useHandleTaskSubmit;

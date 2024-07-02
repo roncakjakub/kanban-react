@@ -1,4 +1,4 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 
 import CrossIcon from "../icons/CrossIcon";
@@ -26,10 +26,10 @@ const BoardModal = () => {
       : []
   );
 
+  /*
   useEffect(() => {
     if (mode === "edit" && currentBoard) {
       setTitle(currentBoard.name);
-      // is it necessary?
       dispatchColumns({
         type: "SET_COLUMNS",
         payload: {
@@ -41,6 +41,7 @@ const BoardModal = () => {
       });
     }
   }, [mode, currentBoard]);
+  */
 
   const handleSubmit = useHandleBoardSubmit(title, columns, mode, boardName);
 
@@ -71,6 +72,7 @@ const BoardModal = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Web Design"
+              required
               className={`${
                 theme === "dark"
                   ? "bg-mediumGray text-white"
@@ -99,6 +101,7 @@ const BoardModal = () => {
                     })
                   }
                   placeholder="Column Name"
+                  required
                   className={`${
                     theme === "dark"
                       ? "bg-mediumGray text-white"

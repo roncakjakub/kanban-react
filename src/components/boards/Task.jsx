@@ -13,7 +13,7 @@ const Task = ({ onClick, task }) => {
       onClick={onClick}
       className={`${
         theme === "dark" ? "bg-mediumGray" : "bg-white"
-      } my-3 py-5 px-4 rounded-md w-11/12 cursor-pointer`}
+      } my-3 py-5 px-4 rounded-md  cursor-pointer`}
     >
       <p
         className={`${

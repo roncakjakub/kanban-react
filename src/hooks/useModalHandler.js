@@ -14,7 +14,7 @@ const useModalHandler = () => {
       columnName: columnName
     };
     
-    dispatch(openModal([modalSettings.name, modalSettings.mode, modalSettings.type]));
+    dispatch(openModal([modalSettings.name, modalSettings.mode]));
     dispatch(setModalData(modalData));
   }, [dispatch, currentBoardName]);
 

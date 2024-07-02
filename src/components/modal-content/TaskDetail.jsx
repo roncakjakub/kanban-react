@@ -71,7 +71,7 @@ const TaskDetail = () => {
       </div>
       <p
         className={`${
-          theme === "dark" ? "text-white" : "text-lightGrayText"
+          theme === "dark" ? "text-grayBlue" : "text-lightGrayText"
         } text-sm mb-4`}
       >
         {currentTask.description}

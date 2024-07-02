@@ -1,5 +1,5 @@
-import { removeBoard, removeTask } from "../../store/boards-slice";
-import { closeModal, openModal } from "../../store/modal-slice";
+import { removeBoard, removeTask } from "../store/boards-slice";
+import { closeModal, openModal } from "../store/modal-slice";
 
 export const getTaskMenuOptions = (dispatch, boardName, task) => [
     {

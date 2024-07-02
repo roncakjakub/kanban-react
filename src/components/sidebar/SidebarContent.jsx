@@ -14,10 +14,10 @@ const SidebarContent = ({ hideSidebar }) => {
     <aside
       className={`${
         theme === "dark" ? "border-grayBlue" : ""
-      } flex flex-col h-screen border-r width-250`}
+      } flex flex-col sm:h-screen sm:border-r width-250`}
     >
       <div
-        className={`flex flex-col justify-between h-full ${
+        className={`flex flex-col justify-between h-full pt-3 sm:pt-0 rounded-md sm:rounded-none ${
           theme === "dark" ? "bg-mediumGray" : "bg-white"
         }`}
       >
@@ -35,7 +35,7 @@ const SidebarContent = ({ hideSidebar }) => {
           <ThemeToggler />
           <button
             onClick={hideSidebar}
-            className="flex gap-3 text-lightGrayText text-xs hover:text-white"
+            className={`${theme === "dark" ? "hover:text-white" : "text-grayBlue"} flex gap-3 text-lightGrayText text-xs `}
             type="button"
           >
             <HideSidebarIcon />

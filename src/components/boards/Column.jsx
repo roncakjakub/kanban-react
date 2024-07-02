@@ -13,7 +13,7 @@ const Column = ({ tasks, columnName }) => {
 
   return (
     <>
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 px-2">
         <p className="text-grayBlue text-sm tracking-widest uppercase mb-2">
           {columnName}
         </p>

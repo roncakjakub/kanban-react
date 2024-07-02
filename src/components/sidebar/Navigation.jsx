@@ -1,11 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setBoardName } from "../../store/boards-slice";
+import { useContext } from "react";
 
 import BoardIcon from "../icons/BoardIcon";
 import useModalHandler from "../../hooks/useModalHandler";
+import ThemeContext from "../../context/ThemeContext";
 
 const Navigation = () => {
   const dispatch = useDispatch();
+  const theme = useContext(ThemeContext);
+
   const currentBoardName = useSelector((state) => state.boardsState.boardName);
   const allBoards = useSelector((state) => state.boardsState.boards);
   const categoryNames = allBoards.map((board) => board.name);
@@ -30,7 +34,7 @@ const Navigation = () => {
             onClick={() => setCurrentCategory(boardName)}
             className={`${
               boardName === currentBoardName && "bg-purple"
-            } flex items-center rounded-r-full hover:cursor-pointer px-8 py-3 gap-4 mb-1`}
+            } ${theme === "dark" ? "hover:bg-white" : "hover:bg-lightBlue"} flex items-center rounded-r-full hover:cursor-pointer px-8 py-3 gap-4 mb-1`}
             key={index}
           >
             <BoardIcon />
@@ -39,7 +43,7 @@ const Navigation = () => {
                 boardName === currentBoardName
                   ? "text-white"
                   : "text-lightGrayText"
-              } font-bold text-sm hover:text-white}`}
+              } font-bold text-sm }`}
             >
               {boardName}
             </a>

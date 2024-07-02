@@ -15,7 +15,7 @@ const modalOverlayStyle = {
   left: 0,
   right: 0,
   bottom: 0,
-  background: "rgba(0, 0, 0, 0.4)",
+  background: "rgba(0, 0, 0, 0.5)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -65,7 +65,11 @@ const Modal = () => {
   };
 
   return createPortal(
-    <div onClick={handleOverlayClick} style={modalOverlayStyle}>
+    <div
+      onClick={handleOverlayClick}
+      style={modalOverlayStyle}
+      className="px-8"
+    >
       <div
         onClick={(e) => e.stopPropagation()}
         className={`${theme === "dark" ? "bg-mediumGray" : "bg-lightestBlue"}`}
